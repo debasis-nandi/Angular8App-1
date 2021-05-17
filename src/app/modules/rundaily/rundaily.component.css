@@ -1,0 +1,27 @@
+a.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+.scroll-container {
+    height: 300px;
+    overflow: auto;
+}
+
+/*#RunSanity .modal-body{
+    min-height: 700px;
+}*/
+
+#RunSanity .ui-dialog-footer{
+    height: 50px;
+}
+
+/*#RunSanity table thead .mat-header-row{ background: unset }*/
+
+.customSanity table>thead>tr {
+    height: 36px !important;
+}
+.customSanity table>tbody>tr {
+    height: 30px !important;
+}

@@ -1,0 +1,48 @@
+{
+    "result": true,
+    "results": [
+        {
+            "all_data": [
+                {
+                    "Identifier": "USDKRW WMCO Curncy",
+                    "Description": "South Korean Won per U.S. Dollar",
+                    "Date": "2020-10-23",
+                    "Spot Rate": 1133.0,
+                    "duplicate": false
+                },
+                {
+                    "Identifier": "AUDUSD WMCO Curncy",
+                    "Description": "U.S. Dollar per Australian Dollar",
+                    "Date": "2020-10-23",
+                    "Spot Rate": 0.7102499999999979,
+                    "duplicate": false
+                },
+                {
+                    "Identifier": "USDBRL WMCO Curncy",
+                    "Description": "Brazilian Real per U.S. Dollar",
+                    "Date": "2020-10-23",
+                    "Spot Rate": 5.6195,
+                    "duplicate": false
+                }
+            ]
+        },
+        {
+            "fx_jump_zero": []
+        },
+        {
+            "fx_jump_zero_count": 0
+        },
+        {
+            "fx_jump_nzero": []
+        },
+        {
+            "fx_jump_nzero_count": 0
+        },
+        {
+            "fx_exist": []
+        },
+        {
+            "fx_count": 0
+        }
+    ]
+}

@@ -1,0 +1,231 @@
+<my-spinner *ngIf="!displayModal" [overlay]="overlay"></my-spinner>
+<p-growl *ngIf="!displayModal" [life]="growlLife" [(value)]="msgs"></p-growl>
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="bold size18 color_heading col-md-8 padding0">Manage User
+                <!-- <span class="Flight size14">[
+                        <b>Sub Text:</b> Lorem Ipsum is simply dummy text.]</span> -->
+            </p>
+            <!-- <div class="pull-right">
+                    <a href="javascript:void(0)" class="btn btn_primary waves-effect">
+                        <i class="fa fa-info-circle"></i>Help</a>
+                </div> -->
+        </div>
+    </div>
+</section>
+<div class="col-md-12 col-sm-12 col-xs-12 marginT20 padding10 White_bg box_radius box-shadow ">
+    <!-- <p class="color_heading size15 bold dinlineBlock table_Heading">Indices Table</p> -->
+    <div class="">
+        <mat-form-field style="width: 30%;">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+        <!-- <p-button icon="pi pi-plus" label="Add" class="pull-right marginT20" (click)="onAction('Add')"></p-button> -->
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                <!-- id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+
+                <!-- userName Column -->
+                <ng-container matColumnDef="userName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="width200"> User Name </th>
+                    <td mat-cell *matCellDef="let element">{{element.userName}}</td>
+                </ng-container>
+
+                <!-- email Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="width150"> Email ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <!-- clientName Column -->
+                <ng-container matColumnDef="clientName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="width150"> Client Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.clientName}} </td>
+                </ng-container>
+
+                <!-- accountName Column -->
+                <ng-container matColumnDef="accountName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="width150"> Account Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.accountName}} </td>
+                </ng-container>
+
+                <!-- Active Column -->
+                <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef class="width150"> Active </th>
+                    <td mat-cell *matCellDef="let element"> {{element.isActive}} </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef class="width150"> Action </th>
+                    <td mat-cell *matCellDef="let element" class="table_icons">
+                        <a href="javascript:void(0)" matTooltip="View" (click)="onAction('View',element.id)" class="bg_lightgrey marginR5">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <!-- <a href="javascript:void(0)" matTooltip="Edit" (click)="onAction('Edit', element.id)" class="bg_lightblue marginR5">
+                            <i class="fa fa-edit"></i>
+                        </a> -->
+                        <a href="javascript:void(0)" *ngIf="element.isActive == 'Yes'" matTooltip="Disable" (click)="onAction('Disable', element.id)" class="bg_lightPurple marginR5">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        <a href="javascript:void(0)" *ngIf="element.isActive == 'No'" matTooltip="Enable" (click)="onAction('Enable', element.id)" class="bg_lightPurple marginR5">
+                            <i class="fa fa-check-square-o"></i>
+                        </a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnList"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnList;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+
+    </div>
+    <div class="gap20"></div>
+</div>
+
+<div class="gap20"></div>
+<div class="gap20"></div>
+<a id="back-to-top" href="javascript:void(0)" class="btn btn-primary btn-lg back-to-top btnTop  hidden-xs" role="button"
+    title="Go to top" data-toggle="tooltip" data-placement="left">
+    <span class="glyphicon glyphicon-menu-up"></span>
+</a>
+
+<p-dialog id="manageUser" [(visible)]="displayModal" [modal]="true" [style]="{width: '45vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <p-header>{{dialogHeader}}</p-header>
+    <my-spinner *ngIf="displayModal" [overlay]="overlay"></my-spinner>
+    <p-growl *ngIf="displayModal" [life]="growlLife" [(value)]="msgs"></p-growl>
+    <div class="modal-body">
+        <form [formGroup]="userForm" *ngIf="isUser">
+            <div class="form-row col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="userName">User Name</label><span class="error" *ngIf="!isViewMode"> *</span>
+                    <input type="text" formControlName="userName" class="form-control" placeholder="">
+                    <div *ngIf="userForm.get('userName').errors && (userForm.get('userName').dirty || userForm.get('userName').touched)">
+                        <span class="error" *ngIf="userForm.get('userName').hasError('required')">Please enter user name</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="email">Email Adress</label><span class="error" *ngIf="!isViewMode"> *</span>
+                    <input type="text" formControlName="email" class="form-control" placeholder="">
+                    <div *ngIf="userForm.get('email').errors && (userForm.get('email').dirty || userForm.get('email').touched)">
+                        <span class="error" *ngIf="userForm.get('email').hasError('required')">Please enter email address</span>
+                        <span class="error" *ngIf="userForm.get('email').hasError('email')">Invalid email address</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="client">Client</label><span class="error" *ngIf="!isViewMode"> *</span>
+                    <select formControlName="client" class="form-control " (change)="onChangeClient($event.target.value)">
+                        <option value="">Select</option>
+                        <option *ngFor="let client of clientOption" [value]="client.value">{{client.label}}</option>
+                    </select>
+                    <div *ngIf="userForm.get('client').errors && (userForm.get('client').dirty || userForm.get('client').touched)">
+                        <span class="error" *ngIf="userForm.get('client').hasError('required')">Please enter client</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="active">Active</label>
+                    <div style="display: flex; padding-left: 0px; padding-top: 12px;" class="form-control">
+                        <label class="control control--radio">
+                            Yes
+                            <input type="radio" formControlName="active" value="1">
+                            <div class="control__indicator"></div>
+                        </label>
+                        <label class="control control--radio ">
+                            No
+                            <input type="radio" formControlName="active" value="0">
+                            <div class="control__indicator"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngFor="let accountRole of userForm.get('accountRoleMap')['controls']; let i = index">
+                <div [formGroup]="accountRole" class="form-row col-md-12 col-sm-12 col-xs-12 padding0">
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <label for="account">Account</label>
+                        <select formControlName="account" class="form-control " (change)="onChangeAccount($event.target.value, userForm.controls['client'].value,i)">
+                            <option value="">Select</option>
+                            <option *ngFor="let account of accountOption" [value]="account.value">{{account.label}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <label for="role">Role</label>
+                        <select formControlName="role" class="form-control ">
+                            <option value="">Select</option>
+                            <ng-container *ngIf="accountRoleOption">
+                                <option *ngFor="let role of accountRoleOption[i].roleOption" [value]="role.value">{{role.label}}</option>
+                            </ng-container>   
+                        </select>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
+        <form [formGroup]="userActivationForm" *ngIf="isUserActivation">
+            <div class="form-row col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="client">Client</label>
+                    <span class="error"> *</span>
+                    <select formControlName="client" class="form-control " (change)="onChangeClient($event.target.value)" disabled>
+                        <option value="">Select</option>
+                        <option *ngFor="let client of clientOption" [value]="client.value">{{client.label}}</option>
+                    </select>
+                    <div *ngIf="userActivationForm.get('client').errors && (userActivationForm.get('client').dirty || userActivationForm.get('client').touched)">
+                        <span class="error" *ngIf="userActivationForm.get('client').hasError('required')">Please enter client name</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="active">Active</label>
+                    <span class="error"> *</span>
+                    <div style="display: flex; padding-left: 0px; padding-top: 12px;" class="form-control">
+                        <label class="control control--radio">
+                            Yes
+                            <input type="radio" formControlName="active" value="1">
+                            <div class="control__indicator"></div>
+                        </label>
+                        <label class="control control--radio ">
+                            No
+                            <input type="radio" formControlName="active" value="0">
+                            <div class="control__indicator"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <ng-container *ngFor="let accountRole of userActivationForm.get('accountRoleMap')['controls']; let i = index">
+                <div [formGroup]="accountRole" class="form-row col-md-12 col-sm-12 col-xs-12 padding0">
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <label for="account">Account</label>
+                        <span class="error"> *</span>
+                        <select formControlName="account" class="form-control " (change)="onChangeAccount($event.target.value, userActivationForm.controls['client'].value,i)">
+                            <option value="">Select</option>
+                            <option *ngFor="let account of accountOption" [value]="account.value">{{account.label}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <label for="role">Role</label>
+                        <span class="error"> *</span>
+                        <select formControlName="role" class="form-control ">
+                            <option value="">Select</option>
+                            <ng-container *ngIf="accountRoleOption">
+                                <option *ngFor="let role of accountRoleOption[i].roleOption" [value]="role.value">{{role.label}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
+    </div>
+
+    <p-footer>
+        <p-button icon="pi pi-check" *ngIf="isUser && !isViewMode" [disabled]="!userForm.valid" (click)="onUpdateUser()" label="Submit" class="p-button-text"></p-button>
+        <p-button icon="pi pi-check" *ngIf="isUserActivation" [disabled]="!userActivationForm.valid" (click)="onActiveUser()" label="Submit" class="p-button-text"></p-button>
+        <p-button icon="pi pi-times" (click)="hideDialog()" label="Cancel"></p-button>
+    </p-footer>
+</p-dialog>

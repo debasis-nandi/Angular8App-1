@@ -1,0 +1,63 @@
+<my-spinner [overlay]="overlay"></my-spinner>
+<p-growl [life]="growlLife" [(value)]="msgs"></p-growl>
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="bold size18 color_heading col-md-8 padding0">Manage Resource
+                <!-- <span class="Flight size14">[
+                    <b>Sub Text:</b> Lorem Ipsum is simply dummy text.]</span> -->
+            </p>
+            <!-- <div class="pull-right">
+                <a href="javascript:void(0)" class="btn btn_primary waves-effect">
+                    <i class="fa fa-info-circle"></i>Help</a>
+            </div> -->
+        </div>
+    </div>
+</section>
+
+<div class="col-md-12 col-sm-12 col-xs-12 marginT20 padding10 White_bg box_radius box-shadow ">
+    <div class="col-md-4 col-sm-4 col-xs-6 ">
+        <label for="name">Client</label>
+        <select class="form-control " [(ngModel)]="clientId" (change)="onChangeClient($event.target.value)">
+            <option value="">Select</option>
+            <option *ngFor="let item of clientOption" [value]="item.value">{{item.label}}</option>
+        </select>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-6 ">
+        <label for="name">Account</label>
+        <select class="form-control " [(ngModel)]="accountId" (change)="onChangeAccount($event.target.value)">
+            <option value="">Select</option>
+            <option *ngFor="let item of accountOption" [value]="item.value">{{item.label}}</option>
+        </select>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-6 ">
+        <label for="name">Role</label>
+        <select class="form-control " [(ngModel)]="roleId" (change)="onChangeRole($event.target.value)">
+            <option value="">Select</option>
+            <option *ngFor="let item of roleOption" [value]="item.value">{{item.label}}</option>
+        </select>
+    </div>
+</div>
+
+<div class="col-md-12 col-sm-12 col-xs-12 marginT20 padding10 White_bg box_radius box-shadow ">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <p-tree id="tree" [value]="resourceList" selectionMode="checkbox" [(selection)]="selectedItems" (onNodeSelect)="nodeSelect($event)"
+            (onNodeUnselect)="nodeUnselect($event)" >
+        </p-tree>
+    </div>
+</div>
+
+<div class="col-md-12 col-sm-12 col-xs-12 marginT20 padding10 White_bg box_radius box-shadow ">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <p-button icon="pi pi-check" (click)="onSubmit()" label="Submit" class="p-button-text marginR10"></p-button>
+    </div>
+</div>
+
+<div class="gap50"></div>
+<div class="gap50"></div>
+
+<a id="back-to-top" href="javascript:void(0)" class="btn btn-primary btn-lg back-to-top btnTop  hidden-xs" role="button"
+    title="Go to top" data-toggle="tooltip" data-placement="left">
+    <span class="glyphicon glyphicon-menu-up"></span>
+</a>
+

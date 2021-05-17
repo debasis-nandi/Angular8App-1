@@ -1,0 +1,58 @@
+<my-spinner [overlay]="overlay"></my-spinner>
+<p-growl [life]="growlLife" [(value)]="msgs"></p-growl>
+<main class="container" id="loginMid">
+    <div class="row">
+        <div class="loginWidth">
+
+            <div class="wrapperLoginForm box col-md-offset-4">
+                <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form-signin animated fadeInUp col-md-12 signup_form">
+                    <h2 class="form-signin-heading">Sign Up</h2>
+                    <div class="clearfix"></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 paddingL0 marginB20">
+                        <div>
+                            <input type="text" formControlName="userName" name="userName" id="userName" autocomplete="off" />
+                            <label>Username </label>
+                            <div *ngIf="registrationForm.get('userName').errors && (registrationForm.get('userName').dirty || registrationForm.get('userName').touched)">
+                                <span class="error" *ngIf="registrationForm.get('userName').hasError('required')">Please enter user name</span>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="password" formControlName="password" name="password" id="password" autocomplete="off" />
+                            <label>Password</label>
+                            <div *ngIf="registrationForm.get('password').errors && (registrationForm.get('password').dirty || registrationForm.get('password').touched)">
+                                <span class="error" *ngIf="registrationForm.get('password').hasError('required')">Please enter Password</span>
+                                <span class="error" *ngIf="registrationForm.get('password').hasError('minlength')">Password must be at least 8 characters</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 paddingR0 marginB20">
+                        <div>
+                            <input type="email" formControlName="email" name="email" id="email" autocomplete="off" />
+                            <label>Email id </label>
+                            <div *ngIf="registrationForm.get('email').errors && (registrationForm.get('email').dirty || registrationForm.get('email').touched)">
+                                <span class="error" *ngIf="registrationForm.get('email').hasError('required')">Please enter email address</span>
+                                <span class="error" *ngIf="registrationForm.get('email').hasError('email')">Invalid email address</span>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="text" formControlName="accountKeyword" name="accountKeyword" id="accountKeyword" autocomplete="off" />
+                            <label>Keyword</label>
+                            <div *ngIf="registrationForm.get('accountKeyword').errors && (registrationForm.get('accountKeyword').dirty || registrationForm.get('accountKeyword').touched)">
+                                <span class="error" *ngIf="registrationForm.get('accountKeyword').hasError('required')">Please enter keyword</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block login_Btn" type="submit" [disabled]="!registrationForm.valid">Register with us now</button>
+                    <div class="text-center marginT10 bold">
+                        <a href="javascript:void(0)" (click)="onLogin()">
+                            <small>Login if already register</small>
+                        </a>
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+    </div>
+</main>

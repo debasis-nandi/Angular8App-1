@@ -1,0 +1,79 @@
+{
+    "result": true,
+    "results": [
+        {
+            "all_data": [
+                {
+                    "PrimaryID": "BA.N",
+                    "Currency": "USD",
+                    "PriceDate": "2020-10-23",
+                    "Price": 167.36,
+                    "PriceType": "Close",
+                    "duplicate": false
+                },
+                {
+                    "PrimaryID": "UTX.N",
+                    "Currency": "USD",
+                    "PriceDate": "2020-10-23",
+                    "Price": 62.57,
+                    "PriceType": "Settle",
+                    "duplicate": false
+                },
+                {
+                    "PrimaryID": "LMT.N",
+                    "Currency": "USD",
+                    "PriceDate": "2020-10-23",
+                    "Price": 374.33,
+                    "PriceType": "Bid ",
+                    "duplicate": false
+                }
+            ]
+        },
+        {
+            "price_exist": []
+        },
+        {
+            "price_exist_count": 0
+        },
+        {
+            "price_jump_zero": []
+        },
+        {
+            "price_jump_zero_count": 0
+        },
+        {
+            "price_jump_nzero": []
+        },
+        {
+            "price_jump_nzero_count": 0
+        },
+        {
+            "missing": [
+                {
+                    "PrimaryID": "BA.N",
+                    "Currency": "USD",
+                    "PriceDate": "2020-10-23",
+                    "Price": 167.36,
+                    "PriceType": "Close",
+                    "duplicate": false
+                },
+                {
+                    "PrimaryID": "UTX.N",
+                    "Currency": "USD",
+                    "PriceDate": "2020-10-23",
+                    "Price": 62.57,
+                    "PriceType": "Settle",
+                    "duplicate": false
+                },
+                {
+                    "PrimaryID": "LMT.N",
+                    "Currency": "USD",
+                    "PriceDate": "2020-10-23",
+                    "Price": 374.33,
+                    "PriceType": "Bid ",
+                    "duplicate": false
+                }
+            ]
+        }
+    ]
+}

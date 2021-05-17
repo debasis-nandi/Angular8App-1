@@ -1,0 +1,23 @@
+{
+    "result": true,
+    "results": [
+        {
+            "tab_name": "price",
+            "message": "No Error Found.",
+            "error": 0,
+            "file": "11042020152650750367"
+        },
+        {
+            "tab_name": "fx",
+            "message": "No Error Found.",
+            "error": 0,
+            "file": "11042020152650750367"
+        },
+        {
+            "tab_name": "ca",
+            "message": "Error Found in fx Data.",
+            "error": 0,
+            "file": "11042020152650750367"
+        }
+    ]
+}

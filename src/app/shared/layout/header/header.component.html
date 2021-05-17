@@ -1,0 +1,41 @@
+<nav class="navbar">
+    <div class="container-fluid">
+        <div class="col-md-4 col-sm-3 col-xs-4 paddingL0">
+            <!-- <p class="size15">You are Here : Home Page</p> -->
+
+        </div>
+        <div class="col-md-2 col-sm-3 col-xs-4 pull-right paddingR0">
+            <div class="pull-right logout">
+                <span class="size15 bold " matTooltip="{{userName}}" style="cursor: pointer;" > {{userName}}</span>
+                <div class="dropdown dinlineBlock">
+                    <button class="btn btn-default dropdown-toggle usserdrop" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="true">
+
+                        <span class="fa fa-chevron-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="javascript:void(0)"><span class="bold">Client :</span> {{activeClient}}</a></li>
+                        <li><a href="javascript:void(0)"><span class="bold">Account :</span> {{selectedAccountName}}</a></li>
+                        <li><a href="javascript:void(0)"><span class="bold">Role :</span> {{activeRole}}</a></li>
+                        <li class="solid-border" style="margin-top: 5px; margin-bottom: 5px;"></li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <span class="bold">Switch Account</span>
+                            </a>
+                            <div style="padding: 3px 20px;">
+                                <mat-radio-group aria-label="" [(ngModel)]="selectedAccountId">
+                                    <mat-radio-button class="example-radio-button" *ngFor="let item of roleDetails; let i = index" [value]="item.accountid" (change)="onAccountChange($event)">
+                                        {{item.accountname}}
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </li>
+                        <li class="solid-border" style="margin-top: 5px; margin-bottom: 5px;"></li>
+                        <li><a href="javascript:void(0)" (click)="logout()">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</nav>

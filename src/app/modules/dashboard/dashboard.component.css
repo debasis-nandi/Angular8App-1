@@ -1,0 +1,25 @@
+.modal-table2 table.dataTable thead tr{
+    background: aliceblue;
+}
+
+.modal-table2 .dataTable > thead > tr > th[class*="sort"]:after {
+    content: "" !important;
+}
+
+#Stats_table th { width: 30%; }
+
+.analystSummaryTableHeaders {
+    background: #cfdfe8 !important;
+}
+
+.indexCompModal {
+    height: 650px !important;
+}
+
+.customRowAlign td {
+    padding: 4px !important;
+}
+
+.customIndexLevels .table>tbody>tr>td {
+    padding: 4px !important;
+}

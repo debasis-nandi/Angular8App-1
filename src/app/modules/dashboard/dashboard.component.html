@@ -1,0 +1,430 @@
+<my-spinner [overlay]="overlay"></my-spinner>
+<p-growl [life]="growlLife" [(value)]="msgs"></p-growl>
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="bold size18 color_heading col-md-8 padding0">Analyst Summary
+                <!-- <span class="Flight size14">[
+                    <b>Sub Text:</b> Lorem Ipsum is simply dummy text.]
+                </span> -->
+            </p>
+            <div class="pull-right">
+                <a href="javascript:void(0)" class="btn btn_primary waves-effect" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#helpModal" (click)="openModal('Help')">
+                    <i class="fa fa-info-circle"></i>Help</a>
+            </div>
+        </div>
+        <div class="col-md-12 marginT20 padding0">
+            <div class="col-md-3 col-sm-6 col-xs-12 " data-sr="enter left over 1s wait 0s" [ngsReveal]="{ reset: true }">
+                <div class="d_boxes blue_box">
+                    <!-- <i class="fa fa-calendar low_opacity"></i> -->
+                    <p class="size30 bold">{{panelCount.totalIndex}}</p>
+                    <p class="low_opacity">Indices Onboarded<br/><br/></p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 " data-sr="enter top over 1s wait 0.2s" [ngsReveal]="{ reset: true }">
+                <div class="d_boxes orange_box">
+                    <!-- <i class="fa fa-bar-chart low_opacity"></i> -->
+                    <p class="size30 bold">{{panelCount.pending}}</p>
+                    <p class="low_opacity">Indices with Pending Calculations<br/> for Today</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 " data-sr="enter bottom over 1s wait 0.2s" [ngsReveal]="{ reset: true }">
+                <div class="d_boxes purple_box ">
+                    <!-- <i class="fa fa-ticket low_opacity"></i> -->
+                    <p class="size30 bold">{{panelCount.completed}}</p>
+                    <p class="low_opacity">Indices with Completed Calculations<br/> for Today</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 " data-sr="enter right over 1s wait 0s" [ngsReveal]="{ reset: true }">
+                <div class="d_boxes green_box">
+                    <!-- <i class="fa fa-plane low_opacity"></i> -->
+                    <p class="size30 bold">{{panelCount.rebalCount}}</p>
+                    <p class="low_opacity">Indices with Pending Rebalance<br/> for Today</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12 marginT20 padding10 White_bg box_radius box-shadow ">
+        <p class="color_heading size15 bold dinlineBlock table_Heading">Indices Table</p>
+        <div class="table-responsive ">
+            <table id="Indices_table" class="table table-hover " style="width:100%">
+                <thead>
+                    <tr class="analystSummaryTableHeaders">
+                        <th>Index Name</th>
+                        <th> Index Ticker</th>
+                        <th> Currency</th>
+                        <th> Asset Class</th>
+                        <th> Last Run Date</th>
+                        <th> Index Level</th>
+                        <th> 1 Day Change(%)</th>
+                        <th> Actions</th>
+                    </tr>
+                </thead>
+                
+            </table>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12 marginT20 padding0">
+            <div class="col-md-3 col-sm-3 col-xs-12 ">
+                <div class="White_bg box_radius box-shadow padding10">
+                    <p class="color_heading size15 bold">Stats</p>
+                    <div class="table-responsive ">
+                        <table id="Stats_table" class="table table-hover " style="width:100%">
+                            <thead>
+                                <tr class="analystSummaryTableHeaders">
+                                    <th>Asset Class</th>
+                                    <th> No. of Indices</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-5 col-xs-12 ">
+                <div class="White_bg box_radius box-shadow padding10">
+                    <p class="color_heading size15 bold">Upcoming Rebalance</p>
+                    <div class="table-responsive">
+                        <table id="Rebalance_table" class="table table-hover " style="width:100%">
+                            <thead>
+                                <tr class="analystSummaryTableHeaders">
+                                    <th>Index Name</th>
+                                    <th> Rebalance Date</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12 ">
+                <div class="White_bg box_radius box-shadow padding10">
+                    <p class="color_heading size15 bold">Upcoming Holidays</p>
+                    <div class="table-responsive">
+                        <table id="Holidays_table" class="table table-hover " style="width:100%">
+                            <thead>
+                                <tr class="analystSummaryTableHeaders">
+                                    <th> Code</th>
+                                    <th> Date</th>
+                                    <th> Description</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<div class="gap20"></div>
+<a id="back-to-top" href="javascript:void(0)" class="btn btn-primary btn-lg back-to-top btnTop  hidden-xs" role="button"
+    title="Go to top" data-toggle="tooltip" data-placement="left">
+    <span class="glyphicon glyphicon-menu-up"></span>
+</a>
+
+<div *ngIf="showHelpModal" id="helpModal" class="modal fade indexModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="closeModal('Help')">&times;</button>
+                <h4 class="modal-title bold">Cross Asset Index WorkBench</h4>
+            </div>
+            <div class="modal-body">
+                <h3 class="bold">User Guidelines</h3>
+
+                <div class="row">
+
+                    <div class="col-md-12 marginT20 padding0">
+                        <div class="col-md-3 col-sm-3 col-xs-12 ">
+                            <img src="{{imgPath + 'Analyst_Summary_small.png'}}">
+                        </div>
+                    
+                        <div class="col-md-9 col-sm-9 col-xs-12 ">
+                            <h5 class="bold">1. Analyst Summary</h5>
+                            <p>Analyst Summary page shows all the indices currently on-boarded on the system, along with other relevant information.
+                                <br> User can also view index composition, index snapshot that consist of index characteristics & analytics etc. for a selected index.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12 marginT20 padding0">
+                        <div class="col-md-3 col-sm-3 col-xs-12 ">
+                            <img src="{{imgPath + 'Index_onboarding_small.png'}}">
+                        </div>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12 ">
+                            <h5 class="bold">2. Onboard New Index (On the new navigation bar > Onboard New Index)</h5>
+                            <p>This functionality allow users to onboard a new index based on standard divisor standard based methodology for equity indices.
+                                <br> User can either create a new index(by selecting various fields & uploading basket of stocks) or can also use existing indices already on-boarded on the system.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 marginT20 padding0">
+                        <div class="col-md-3 col-sm-3 col-xs-12 ">
+                            <img src="{{imgPath + 'Index_Run_Daily_small.png'}}">
+                        </div>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12 ">
+                            <h5 class="bold">3. Upload Market Data</h5>
+                            <p>This functionality allow users to upload the market data (Constituent Prices, FX Rates, Corporate Actions), which will be used for index level calculation.
+                                <br> User can either upload the market data for a given date (in a specific format as provided) or can use dummy market data already uploaded to the system.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 marginT20 padding0">
+                        <div class="col-md-3 col-sm-3 col-xs-12 ">
+                            <img src="{{imgPath + 'Index_Run_Daily_small.png'}}">
+                        </div>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12 ">
+                            <h5 class="bold">4. Index Level Calculation</h5>
+                            <p>This functionality allow users to initiate index level calculation for selected index (or indices) for a given date. 
+                                <br> The run time status can be viewed under ‘Status View’ and output reports will be downloaded automatically after successful completion of index level calculation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-modal-red">Watch the video to see its working</button>
+                <!-- <button type="button" (click)="closeModal('Help')" class="btn btn-default pull-right" data-dismiss="modal">
+                    <i class="fa fa-check" aria-hidden="true"></i> Continue to platform</button> -->
+                <p-button icon="pi pi-check" (click)="closeModal('Help')" label="Continue to platform" class="pull-right" data-dismiss="modal"></p-button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="viewModal" *ngIf="showViewModal" class="modal fade indexModal indexModalView" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" (click)="closeModal('View')" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title bold">Index Snapshot</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12 marginT20 padding0">
+                        <div class="col-md-8 col-sm-8 col-xs-12 padding0">
+                            <div class="" style="display: flex;">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <h5 class="bold modal-table-heading">Index Details</h5>
+                                    <div class="table-responsive modal-table1">
+                                        <table id="Stats_table" *ngIf="indexSnapshot && indexSnapshot.indexDetails" class="table table-hover " style="width:100%">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Index Name</th>
+                                                    <td>{{indexSnapshot.indexDetails?.indexName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Index Ticker</th>
+                                                    <td>{{indexSnapshot.indexDetails?.indexTicker}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Index Currency</th>
+                                                    <td>{{indexSnapshot.indexDetails?.indexCurrency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Return Type</th>
+                                                    <td>{{indexSnapshot.indexDetails?.returnType}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Asset Class</th>
+                                                    <td>{{indexSnapshot.indexDetails?.assetClass}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Onboarding Date</th>
+                                                    <td>{{indexSnapshot.indexDetails?.launchDate}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Base Date</th>
+                                                    <td>{{indexSnapshot.indexDetails?.baseDate}}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <h5 class="bold modal-table-heading">Index Characteristics</h5>
+                                    <div class="table-responsive modal-table1">
+                                        <table id="Stats_table" *ngIf="indexSnapshot && indexSnapshot.indexCharacteristics" class="table table-hover " style="width:100%">
+
+                                            <tbody>
+                                                <tr>
+                                                    <th>Number of Constituents</th>
+                                                    <td>{{indexSnapshot.indexCharacteristics?.indexOfConstituents}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Constituent Market [ USD Mn]</th>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>&nbsp;&nbsp;&nbsp;-&nbsp;Mean Total Market Cap</th>
+                                                    <td>{{indexSnapshot.indexCharacteristics?.meanTotalMarketCap}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>&nbsp;&nbsp;&nbsp;-&nbsp;Largest Total Market Cap</th>
+                                                    <td>{{indexSnapshot.indexCharacteristics?.largestTotalMarketCap}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>&nbsp;&nbsp;&nbsp;-&nbsp;Smallest Total Market Cap</th>
+                                                    <td>{{indexSnapshot.indexCharacteristics?.smallestTotalMarketCap}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Weight Largest Constituent(%)</th>
+                                                    <td>{{indexSnapshot.indexCharacteristics?.weightLargestConstituent}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Weight Top 10 Constituent(%)</th>
+                                                    <td>{{indexSnapshot.indexCharacteristics?.weightTop10Constituent}}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="marginT20 " style="display: flex; ">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <h5 class="bold modal-table-heading">Index Performance</h5>
+                                    <div class="table-responsive modal-table2">
+                                        <table id="Performance_table" class="table table-hover " style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>1y</th>
+                                                    <th>3y</th>
+                                                    <th>5y</th>
+                                                    <th>10y</th>
+                                                    <th>YTD</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="table-responsive modal-table2" style="margin-top: -24px !important;">
+                                        <span style="float:right !important;font-size:13px !important;">*Annualized</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <h5 class="bold modal-table-heading">Calendar Year Performance</h5>
+                                    <div class="table-responsive modal-table2">
+                                        <table id="calendarYearPerformance_table" class="table table-hover " style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>2021</th>
+                                                    <th>2020</th>
+                                                    <th>2019</th>
+                                                    <th>2018</th>
+                                                    <th>2017</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 marginT20">
+                                <!-- <img class="img-responsive" src="{{imgPath + 'modal-graph.jpg'}}"> -->
+                                <p-chart type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12 ">
+                            <h5 class="bold modal-table-heading">Index Levels</h5>
+                            <div class="table-responsive modal-table2 customIndexLevels">
+                                <table id="indexLevels" class="table table-hover " style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Cal Date</th>
+                                            <th>Index Level</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: right;">
+                <!-- <button type="button" (click)="closeModal('View')" class="btn modal-close-red" data-dismiss="modal">
+                    <i class="fa fa-times" aria-hidden="true"></i> Close</button>
+                <button type="button" class="btn btn-default">
+                    <i class="fa fa-download" aria-hidden="true"></i> Export All Data to Excel</button> -->
+                    
+                    <!-- <p-button icon="pi pi-download" label="Download"></p-button> -->
+                    <p-button icon="pi pi-times" (click)="closeModal('View')" label="Cancel" class="paddingL10" data-dismiss="modal"></p-button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="expandModal" #expandModal class="modal fade indexModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="closeModal('Constituent')">&times;</button>
+                <h4 class="modal-title bold" style="position: relative;">Index Composition
+                    <span class="modal-title-tag"> Index : {{indexCompositionTitle.indexName}} | Date : {{indexCompositionTitle.lastRun}} | Level :{{indexCompositionTitle.indexLevel}}</span>
+                </h4>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                        <div class="table-responsive marginB10">
+                            <table id="expandTable" class="table table-hover " style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th> PRIMARY ID</th>
+                                        <th> RIC</th>
+                                        <th> SEDOL</th>
+                                        <th> BBG</th>
+                                        <th> ISIN</th>
+                                        <th> OPEN UNIT</th>
+                                        <th> OPEN PRICE</th>
+                                        <th> DELTA CAP</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <!-- <button type="button" class="btn btn-default pull-right expandExportBtn" (click)="onDownloadConstituent()">
+                                <i class="fa fa-download" aria-hidden="true"></i> Export All to Excel</button> -->
+                                <p-button icon="pi pi-download" (click)="onDownloadConstituent()" label="Download" class="pull-right expandExportBtn"></p-button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,62 @@
+#index_table .checkbox{ margin: 0px !important; }
+
+.dflex .form-control{ height: 34px !important; }
+.mydp .selectiongroup{ height: 34px !important; }
+
+#index_table tbody tr:nth-child(even) {background: #f7f7f7}
+
+.scroll-container {
+    height: 400px;
+    overflow: auto;
+}
+
+.ui-multiselect-header{ display: none; }
+.ui-multiselect{ width: 130px; text-align: left;}
+.ui-dropdown{ min-width: 130px; text-align: left;}
+
+/*table tbody td{
+    white-space: normal;
+    word-wrap: break-word;
+}*/
+
+#holiday .ui-multiselect{ height: 34px; }
+/*#holidayMergeType .ui-dropdown { height: 34px; width: 145px; }*/
+
+#holiday .ui-multiselect {
+    border: 1px solid #e5e5e5;
+}
+
+#holiday .pi {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #555;
+}
+
+#holiday .ui-multiselect .ui-multiselect-label {
+    color: #555 !important;
+}
+
+.ui-dialog-content{
+    height: 500px;
+}
+
+.onboardIndexCheck {
+    margin-top:5px !important;
+}
+
+.commonModalSpacing .modal-body, .commonModalSpacing .modal-body .padding0, .commonModalSpacing .modal-body .padding0 .scroll-container{
+    height:500px !important;
+}
+
+.commonModalSpacing .modal-body .padding0 .scroll-container{
+    height:500px !important;
+}
+
+.commonModalSpacing .modal-body .scroll-container{
+    height:500px !important;
+}
+
+.onboardIndexCheck label {
+    vertical-align: middle !important;
+    margin-left: 3px !important;
+}

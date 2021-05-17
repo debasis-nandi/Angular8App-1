@@ -1,0 +1,77 @@
+<div class="wrapper">
+    <nav id="sidebar">
+
+        <div class="sidebar-header">
+            <img src="{{imgPath + 'logo.jpg'}}" class="img-responsive "> </div>
+        <ul class="list-unstyled components">
+            <li>
+                <a routerLinkActive="active" routerLink="/home" class="waves-effect">
+                    <i class="fa fa-home size18 paddingR10 icons-bule"></i>Home</a>
+            </li>
+            <li>
+                <a routerLinkActive="active" routerLink="/dashboard" class="waves-effect">
+                    <i class="fa fa-file-text size18 paddingR10 icons-bule"></i>Analyst Summary</a>
+            </li>
+            <li> 
+                <a routerLinkActive="active" routerLink="/onboardindex" class="waves-effect">
+                    <i class="fa fa-plus size18 paddingR10 icons-bule"></i>Onboard New Index</a>
+            </li>
+            <li>
+                <a routerLinkActive="active" routerLink="/rundaily" class="waves-effect">
+                    <i class="fa fa-calendar paddingR10 icons-bule"></i>Run Daily Calculation</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="waves-effect disabled">
+                    <i class="fa fa-eraser size18 paddingR10 icons-bule"></i>Back Testing
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="waves-effect disabled">
+                    <i class="fa fa-ticket  size18 paddingR10 icons-bule"></i>Rebalance Handling</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="waves-effect disabled">
+                    <i class="fa fa-pie-chart size18 paddingR10 icons-bule"></i>Index Analytics</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="waves-effect disabled">
+                    <i class="fa fa-shopping-bag size18 paddingR10 icons-bule"></i>Weights Optimizer</a>
+            </li>
+            <!-- <li>
+                <a href="" class="waves-effect">
+                    <i class="fa fa-pencil size18 paddingR10"></i>Edit Existing Indices</a>
+            </li> -->
+            <li>
+                <a href="javascript:void(0)" class="waves-effect disabled">
+                    <i class="fa fa-calculator size18 paddingR10 icons-bule"></i>Calculation Logs
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="waves-effect disabled">
+                    <i class="fa fa-database paddingR10 icons-bule"></i>Data Management</a>
+            </li>
+
+            <li *ngIf="isAdmin()">
+                <a href="javascript:void(0)" class="waves-effect">
+                    <i class="fa fa-user-plus size18 paddingR10 icons-bule"></i>Admin
+                </a>
+                <ul class="Submenu list-unstyled" id="pageSubmenu">
+                    <li *ngFor="let item of adminItems">
+                        <a routerLinkActive="active" routerLink="{{'/' + item.resource__url}}" class="waves-effect marginT0">
+                            <i class="fa fa-circle size14 paddingR10 icons-bule"></i>{{item.resource__name}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="content">
+        <div class="container-fluid padding0">
+            <app-header></app-header>
+            <div>
+                <router-outlet></router-outlet>
+            </div>
+            <app-footer></app-footer>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+{
+    "result": true,
+    "results": [
+        {
+            "Description": "New Year",
+            "Exchange_Code": "NYSE",
+            "Holidays": "2019-02-18",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "x",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-19",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "y",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-20",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "a",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-21",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "b",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-22",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "f",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-23",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "r",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-24",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "d",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-25",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "h",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-26",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": []
+        },
+        {
+            "Description": "t",
+            "Exchange_Code": "BSCE",
+            "Holidays": "2019-02-27",
+            "Trading_Status": 0,
+            "Settlement_Status": 0,
+            "SanityResult": [{"error": "Description should be alphanumeric."}]
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "result": true,
+    "data": [
+      {
+        "assetClass": "Equity",
+        "noOfIndices": 100
+      }
+    ]
+  }

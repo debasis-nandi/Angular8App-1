@@ -1,0 +1,123 @@
+{
+    "result": true,
+    "results": {
+        "role": {
+            "role_id": 53,
+            "role_name": "Client Admin Evalueserve"
+        },
+        "acl": [
+            {
+                "resource_id": 11,
+                "resource_name": "Manage Client",
+                "resource_url": "admin/client",
+                "resource_level": 0,
+                "resource_parent": "0",
+                "resource_sequence": 1,
+                "resource_widgets": [
+                    {
+                        "widget_id": 1,
+                        "widget_label": "Client List",
+                        "widget_name": "client_list",
+                        "widget_selected": false,
+                        "widget_actions": [
+                            {
+                                "action_id": 1,
+                                "action_name": "Add",
+                                "action_selected": false
+                            },
+                            {
+                                "action_id": 2,
+                                "action_name": "Edit",
+                                "action_selected": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "resource_id": 12,
+                "resource_name": "Manage Account",
+                "resource_url": "admin/account",
+                "resource_level": 0,
+                "resource_parent": "0",
+                "resource_sequence": 2,
+                "resource_widgets": [
+                    {
+                        "widget_id": 2,
+                        "widget_label": "Account List",
+                        "widget_name": "account_list",
+                        "widget_selected": false,
+                        "widget_actions": [
+                            {
+                                "action_id": 3,
+                                "action_name": "Add",
+                                "action_selected": true
+                            },
+                            {
+                                "action_id": 4,
+                                "action_name": "Edit",
+                                "action_selected": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "resource_id": 13,
+                "resource_name": "Manage User",
+                "resource_url": "admin/user",
+                "resource_level": 0,
+                "resource_parent": "0",
+                "resource_sequence": 3,
+                "resource_widgets": [
+                    {
+                        "widget_id": 3,
+                        "widget_label": "User List",
+                        "widget_name": "user_list",
+                        "widget_selected": false,
+                        "widget_actions": [
+                            {
+                                "action_id": 5,
+                                "action_name": "Add",
+                                "action_selected": false
+                            },
+                            {
+                                "action_id": 6,
+                                "action_name": "Edit",
+                                "action_selected": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "resource_id": 14,
+                "resource_name": "Manage Resource",
+                "resource_url": "admin/resource",
+                "resource_level": 0,
+                "resource_parent": "0",
+                "resource_sequence": 4,
+                "resource_widgets": [
+                    {
+                        "widget_id": 4,
+                        "widget_label": "Resource List",
+                        "widget_name": "resource_list",
+                        "widget_selected": false,
+                        "widget_actions": [
+                            {
+                                "action_id": 7,
+                                "action_name": "Add",
+                                "action_selected": false
+                            },
+                            {
+                                "action_id": 8,
+                                "action_name": "Edit",
+                                "action_selected": false
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

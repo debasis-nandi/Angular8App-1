@@ -1,0 +1,25 @@
+{
+  "result": true,
+  "results": [
+    {
+      "IndexName": "Test_3",
+      "IndexTicker": 147,
+      "IndexCurrency": "USD",
+      "Upload Date": "2020-10-23",
+      "Upload Status": "Missing PX/FX",
+      "IndexLevel": "Error:IL not found",
+      "Last Run Date": "Error:CalDate NA",
+      "Last Run User": "Admin"
+    },
+    {
+      "IndexName": "Test_2",
+      "IndexTicker": 148,
+      "IndexCurrency": "USD",
+      "Upload Date": "2020-10-23",
+      "Upload Status": "Missing PX/FX",
+      "IndexLevel": "Not Found",
+      "Last Run Date": "Not Found",
+      "Last Run User": "Admin"
+    }
+  ]
+}

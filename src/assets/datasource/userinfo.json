@@ -1,0 +1,31 @@
+{
+    "result": true,
+    "results": {
+      "user_id": 27,
+      "username": "deep.kandpal@evalueserve.com",
+      "exp": 1601457927,
+      "email": "deep.kandpal@evalueserve.com",
+      "clientname": "Evalueserve",
+      "clientid": 21,
+      "user": "deep.kandpal",
+      "admin": false,
+      "role_detail": [
+        {
+          "rolename": "Client Admin Evalueserve",
+          "roleId": 53,
+          "roletype": "Client Admin",
+          "roletypeId": 1,
+          "accountid": 25,
+          "accountname": "demo bank"
+        },
+        {
+          "rolename": "Account Manager Dummy Bank",
+          "roleId": 56,
+          "roletype": "Account Manager",
+          "roletypeId": 2,
+          "accountid": 26,
+          "accountname": "dummy bank"
+        }
+      ]
+    }
+  }

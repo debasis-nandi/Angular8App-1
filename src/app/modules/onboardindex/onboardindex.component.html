@@ -1,0 +1,861 @@
+<my-spinner [overlay]="overlay"></my-spinner>
+<p-growl [life]="growlLife" [(value)]="msgs"></p-growl>
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="bold size18 color_heading col-md-2 padding0">Onboard New Index</p>
+            <div class="col-md-10 pull-left" style ="margin-top:-3px !important;">
+                <!-- <a href="javascript:void(0)" (click)="resetForm()" class="btn btn_primary waves-effect marginR5 Reset_btn">
+                    <i class="fa fa-info-circle"></i>Reset All Data</a> -->
+                <a href="javascript:void(0)" class="btn btn_primary waves-effect" (click)="onPreOnboardedIndex()">
+                    <i class="fa fa-info-circle" title="Use this to auto-populate all the underlying data of any existing index."></i>Use Pre-Onboarded Index</a>
+            </div>
+        </div>
+    </div>
+
+    <form [formGroup] = "onBoardIndexForm">
+    <div class="col-md-12 col-sm-12 col-xs-12 marginT10 padding10 White_bg box_radius box-shadow ">
+        <p class="color_heading size16 bold">Enter Index Details</p>
+        <div class="table-responsive">
+            <table id="index_table" class="table table-hover dataTable no-footer" style="width:100%">
+                <thead>
+                    <tr>
+                        <th width="20%">Type<span class="error"> *</span></th>
+                        <th width="40%"> Index Name<span class="error"> *</span></th>
+                        <th width="20%"> Index Ticker<span class="error"> *</span></th>
+                        <th width="20%"> Transaction Cost<span class="error"> *</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let indexDetailGroup of onBoardIndexForm.get('indexDetail')['controls']; let i = index">
+                        <tr [formGroup]="indexDetailGroup">
+                            <td>
+                                <div class="checkbox checkbox-info" class = "onboardIndexCheck">
+                                    <input type="checkbox" id="{{indexTypeOptions[i].name}}" formControlName="indexType" value="{{indexTypeOptions[i].value}}" (change)="onIndexTypeChange($event, i)">
+                                    <label for="{{indexTypeOptions[i].name}}">{{indexTypeOptions[i].label}}</label>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" formControlName="indexName" class="form-control" placeholder="Enter Index Name"
+                                (change)="onCheckIndexName($event.target.value, i)">
+                                <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexName.errors && (onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexName.dirty || onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexName.touched)">
+                                    <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexName.hasError('required')">
+                                        <span class="error">Index name is required.</span>
+                                    </div>
+                                    <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexName.hasError('duplicate')">
+                                        <span class="error">Index already in system.</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" formControlName="indexTicker" class="form-control" placeholder="Enter Index Ticker"
+                                (change)="onCheckTicker($event.target.value, i)">
+                                <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexTicker.errors && (onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexTicker.dirty || onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexTicker.touched)">
+                                    <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexTicker.hasError('required')">
+                                        <span class="error">Index ticker is required.</span>
+                                    </div>
+                                    <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.indexTicker.hasError('duplicate')">
+                                        <span class="error">Ticker already in system.</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" formControlName="transactionCost" class="form-control" placeholder="Enter Transaction Cost">
+                                <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.transactionCost.errors && (onBoardIndexForm.get('indexDetail')['controls'][i].controls.transactionCost.dirty || onBoardIndexForm.get('indexDetail')['controls'][i].controls.transactionCost.touched)">
+                                    <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.transactionCost.hasError('required')">
+                                        <span class="error">Transaction cost is required.</span>
+                                    </div>
+                                    <div *ngIf="onBoardIndexForm.get('indexDetail')['controls'][i].controls.transactionCost.hasError('pattern')">
+                                        <span class="error">Accept only number.</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-12 dflex borderTop">
+            <div class="select_values">
+                <label>Calc Methodology<span class="error"> *</span>
+                    <a href="javascript:void(0)" title="Please select the appropriate index level calculation methodology" style="margin-left: 3px !important;"><i class="fa fa-info-circle"></i></a>
+                </label>
+                <select class="form-control " formControlName="calcMethodolody" (change)="onChangeCalMethodology($event.target.value)">
+                    <option value="">Select</option>
+                    <option *ngFor="let item of calcMethodolodyOptions" [ngStyle]="item.value === 'Stock Reinvest Method' || item.value === 'Custom Strategy 1' || item.value === 'Custom Strategy 2' ? {'color':'#a2a2a2'}: {'color':'none'}" [disabled]="item.value === 'Stock Reinvest Method' || item.value === 'Custom Strategy 1' || item.value === 'Custom Strategy 2'" [value]="item.value">{{item.label}}</option>
+                </select>
+                <div *ngIf="onBoardIndexForm.get('calcMethodolody').errors && (onBoardIndexForm.get('calcMethodolody').dirty || onBoardIndexForm.get('calcMethodolody').touched)">
+                    <div *ngIf="onBoardIndexForm.get('calcMethodolody').hasError('required')">
+                        <span class="error">Methodology is required.</span>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="select_values">
+                <label>Calc Type<span class="error"> *</span></label>
+                <select class="form-control " formControlName="calcType">
+                    <option value="">Select</option>
+                    <option *ngFor="let item of calcTypeOptions" [value]="item.value">{{item.label}}</option>
+                </select>
+                <div *ngIf="onBoardIndexForm.get('calcType').errors && (onBoardIndexForm.get('calcType').dirty || onBoardIndexForm.get('calcType').touched)">
+                    <div *ngIf="onBoardIndexForm.get('calcType').hasError('required')">
+                        <span class="error">Type is required.</span>
+                    </div>
+                </div>
+            </div> -->
+            <div class="select_values">
+                <label>Calc Currency<span class="error"> *</span>
+                    <a href="javascript:void(0)" title="Please select the currency for calculating index levels" style="margin-left:3px !important;"><i class="fa fa-info-circle"></i></a>
+                </label>
+                <select class="form-control " formControlName="indexCurrency">
+                    <option value="">Select</option>
+                    <option *ngFor="let item of indexCurrencyOptions" [ngStyle]="item.value === 'EUR' || item.value === 'JPY' || item.value === 'GBP' || item.value === 'AUD' || item.value === 'HKD' || item.value === 'CNY' ? {'color':'#a2a2a2'}: {'color':'none'}" [disabled]="item.value === 'EUR' || item.value === 'JPY' || item.value === 'GBP' || item.value === 'AUD' || item.value === 'HKD' || item.value === 'CNY'" [value]="item.value">{{item.label}}</option>
+                </select>
+                <div *ngIf="onBoardIndexForm.get('indexCurrency').errors && (onBoardIndexForm.get('indexCurrency').dirty || onBoardIndexForm.get('indexCurrency').touched)">
+                    <div *ngIf="onBoardIndexForm.get('indexCurrency').hasError('required')">
+                        <span class="error">Currency is required.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="select_values">
+                <label>Index Calc Days<span class="error"> *</span>
+                    <a href="javascript:void(0)" title="Please select the index level calculation frequency" style="margin-left:3px !important;"><i class="fa fa-info-circle"></i></a>
+                </label>
+                <select class="form-control " formControlName="indexCalcDays">
+                    <option value="">Select</option>
+                    <option *ngFor="let item of indexCalcDaysOptions" [ngStyle]="item.value === '7 Days' || item.value === '5 Days(Tue-Sat)' || item.value === '5 Days(Sun-Thu)' ? {'color':'#a2a2a2'}: {'color':'none'}" [disabled]="item.value === '7 Days' || item.value === '5 Days(Tue-Sat)' || item.value === '5 Days(Sun-Thu)'" [value]="item.value">{{item.label}}</option>
+                </select>
+                <div *ngIf="onBoardIndexForm.get('indexCalcDays').errors && (onBoardIndexForm.get('indexCalcDays').dirty || onBoardIndexForm.get('indexCalcDays').touched)">
+                    <div *ngIf="onBoardIndexForm.get('indexCalcDays').hasError('required')">
+                        <span class="error">Days is required.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="select_values">
+                <label>Base Date<span class="error"> *</span>
+                    <a href="javascript:void(0)" title="Please select the index inception date" style="margin-left:3px !important;"><i class="fa fa-info-circle"></i></a>
+                </label>
+                <my-date-picker name="baseDate" [options]="baseDateOptions" formControlName="baseDate"
+                (dateChanged)="onBaseDateChanged($event)"></my-date-picker>
+                <div *ngIf="onBoardIndexForm.get('baseDate').errors && (onBoardIndexForm.get('baseDate').dirty || onBoardIndexForm.get('baseDate').touched)">
+                    <div *ngIf="onBoardIndexForm.get('baseDate').hasError('required')">
+                        <span class="error">Base date is required.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="select_values">
+                <label>Onboarding Date<span class="error"> *</span>
+                    <a href="javascript:void(0)" title="Please select the first calculation date on this platform" style="margin-left:3px !important;"><i class="fa fa-info-circle"></i></a>
+                </label>
+                <my-date-picker name="onBoardingDate" [options]="onBoardDateOptions" formControlName="onboardingDate"
+                (dateChanged)="OnboardingDateChanged($event)"></my-date-picker>
+                <div *ngIf="onBoardIndexForm.get('onboardingDate').errors && (onBoardIndexForm.get('onboardingDate').dirty || onBoardIndexForm.get('onboardingDate').touched)">
+                    <div *ngIf="onBoardIndexForm.get('onboardingDate').hasError('required')">
+                        <span class="error">Onboarding date is required.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="select_values">
+                <label>Base Value<span class="error"> *</span>
+                    <a href="javascript:void(0)" title="Please enter the inception/base value" style="margin-left:3px !important;"><i class="fa fa-info-circle"></i></a>
+                </label>
+                <input type="text" class="form-control" formControlName="baseValue">
+                <div *ngIf="onBoardIndexForm.get('baseValue').errors && (onBoardIndexForm.get('baseValue').dirty || onBoardIndexForm.get('baseValue').touched)">
+                    <div *ngIf="onBoardIndexForm.get('baseValue').hasError('required')">
+                        <span class="error">Base value is required.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12 marginT10 padding10 White_bg box_radius box-shadow ">
+        <p class="color_heading size16 bold borderbottom paddingBottom5">Upload Index Data</p>
+        <div class="row marginT5">
+            <div class="col-md-4 borderRight">
+                <p class="color_heading size15 bold marginT10 marginB5 dinlineBlock">Constituent Data<span class="error"> *</span></p>
+                <div *ngIf="!isCopyConstituents" class="pull-right dinlineBlock col-md-6 padding0 marginT5 upload_sec">
+                    <a href="javascript:void(0)" class="pull-right borderAll download_btn" title = "Download Constituents Template" (click)="onTemplateDownload('Constituent')">
+                        <i class="fa fa-download size16 "></i>
+                    </a>
+                </div>
+                <div *ngIf="!isCopyConstituents" class="box2 has-advanced-upload marginT10">
+                    <div class="box2__input">
+                        <input class="box2__file" type="file" #fileInput id="constituentFile" style="visibility: hidden; display:none;"
+                        (click)="fileInput.value = null" value=""
+                        (change)="constituentFileChangeEvent($event)">
+                        <div id="arrow" *ngIf="!isViewConstituentSanity">
+                            <i class="fa fa-upload size18"></i>
+                        </div>
+                        <div *ngIf="isViewConstituentSanity">
+                            <a href="javascript:void(0)" (click)="onViewConstituentSanity()" class="btn btn_primary waves-effect">
+                                <i class="{{constituentSanityStatusIcon}}" aria-hidden="true"></i> View Sanity
+                            </a>
+                        </div>
+                        <p *ngIf="!constituentFile" class="uploa_text">Browse constituent file to upload</p>
+                        <p *ngIf="constituentFile" class="uploa_text">{{constituentFile.name}}
+                            <a href="javascript:void(0)" (click)="resetConstituentFile()">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                            </a>
+                        </p>
+                        <label for="constituentFile" class="upload_tx btn btn_primary waves-effect">Upload File </label>
+                        <div>
+                        </div>
+                    </div>
+                    <div class="box2__uploading">Uploading…</div>
+                    <div class="box2__success">Done!</div>
+                    <div class="box2__error">Error!
+                        <span></span>
+                    </div>
+                </div>
+                <div *ngIf="isCopyConstituents" class="box2 has-advanced-upload marginT10">
+                    <span style="margin-left:38px !important;color: green !important;font-weight:900 !important;font-size: 1.5rem !important;">Constituent data retrieved</span>
+                    <div class="box2__input" style="margin-top:-1px !important">
+                        <button type="button" (click)="onConstituentsPreview()" class="btn btn_primary waves-effect" style="margin-top: 65px !important;">Preview</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4 borderRight">
+                <p class="color_heading size15 bold marginT10 marginB5 dinlineBlock">Holiday List<span class="error" *ngIf="!isHolidayListNA"> *</span></p>
+                <div class="pull-right dinlineBlock col-md-6 padding0 marginT5 upload_sec">
+                    <select class="form-control" formControlName="holidayType" (change)="onChangeHolidayListType($event.target.value)">
+                        <!-- <option value="">Upload File</option> -->
+                        <option *ngFor="let item of holidayListInputTypeOptions" [value]="item.value">{{item.label}}</option>
+                    </select>
+                    <a href="javascript:void(0)" *ngIf="isUploadHolidayList" title = "Download Holiday File Template" class="pull-right borderAll download_btn" (click)="onTemplateDownload('Holiday')">
+                        <i class="fa fa-download size16 "></i>
+                    </a>
+                </div>
+                <div *ngIf="isUploadHolidayList" class="box2 has-advanced-upload marginT10">
+                    <div *ngIf="!isCopyUploadHoliday" class="box2__input">
+                        <input class="box2__file" type="file" #fileInput1 id="holidayFile" style="visibility: hidden; display:none;"
+                        (click)="fileInput1.value = null" value=""
+                        (change)="holidayFileChangeEvent($event)" multiple="">
+                        <div id="arrow" *ngIf="!isViewHolidayListSanity">
+                            <i class="fa fa-upload size18"></i>
+                        </div>
+                        <div *ngIf="isViewHolidayListSanity">
+                            <a href="javascript:void(0)" (click)="onViewHolidayListSanity()" class="btn btn_primary waves-effect">
+                                <i class="{{holidayListSanityStatusIcon}}" aria-hidden="true"></i> View Sanity
+                            </a>
+                        </div>
+                        <p *ngIf="!holidayListFile" class="uploa_text ">Browse holiday file to upload</p>
+                        <p *ngIf="holidayListFile" class="uploa_text">{{holidayListFile.name}}
+                            <a href="javascript:void(0)" (click)="resetHolidayFile()">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                            </a>
+                        </p>
+                        <label for="holidayFile" class="upload_tx btn btn_primary waves-effect">Upload File </label>
+                        
+                    </div>
+                    <div class="box2__uploading">Uploading…</div>
+                    <div class="box2__success">Done!</div>
+                    <div class="box2__error">Error!
+                        <span></span>
+                    </div>
+
+                    <div *ngIf="isCopyUploadHoliday" class="box2__input" style="margin-top:-11px !important;height:129px !important;">
+                        <span style="font-size: small !important;font-weight:900 !important;color: green !important;font-size:1.5rem !important; margin-right:-68px !important">Holiday data retrieved</span>
+                        <button type="button" class="upload_tx btn btn_primary waves-effect"  (click)="onHolidayUploadPreview()" style="margin-bottom:-189px !important;margin-left:-27px !important;">Preview </button>
+                    </div>
+                </div>
+                <div *ngIf="isHolidayListStandard" class="box2 has-advanced-upload marginT10" style="height: 154px;">
+                    <div class="box2__input " style="margin-left: -50px;">
+                        <div class="col-md-12 padding0">
+                            <div class="col-md-6">
+                                <p-multiSelect id="holiday" [options]="holidayOptions" optionLabel="name" defaultLabel="Select Holiday" selectionLimit="4" [filter]="false"
+                                    formControlName="holiday">
+                                </p-multiSelect>
+                                <!-- <div *ngIf="onBoardIndexForm.get('holiday').errors && (onBoardIndexForm.get('holiday').dirty || onBoardIndexForm.get('holiday').touched)">
+                                    <div *ngIf="onBoardIndexForm.get('holiday').hasError('required')">
+                                        <span class="error">Holiday required.</span>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="col-md-6">
+                                <!-- <p-dropdown id="holidayMergeType" [options]="holidayMergeTypeOptions" formControlName="holidayMergeType" 
+                                    optionLabel="label" optionValue="value">
+                                </p-dropdown> -->
+                                <select formControlName="holidayMergeType" class="form-control " style="height: 34px; width: 150px;">
+                                    <!-- <option value="">Select merge type</option> -->
+                                    <option *ngFor="let item of holidayMergeTypeOptions" [value]="item.value">{{item.label}}</option>
+                                </select>
+                                <!-- <div *ngIf="onBoardIndexForm.get('holidayMergeType').errors && (onBoardIndexForm.get('holidayMergeType').dirty || onBoardIndexForm.get('holidayMergeType').touched)">
+                                    <div *ngIf="onBoardIndexForm.get('holidayMergeType').hasError('required')">
+                                        <span class="error">Merge type required.</span>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <button type="button" id="btnStandardPreview" class="upload_tx btn btn_primary waves-effect marginT40"  (click)="onHolidayStandardPreview()">Preview </button>
+
+                    </div>
+                </div>
+                <div *ngIf="isHolidayListNA" class="box2 has-advanced-upload marginT10">
+                    <div class="box2__input" style="padding-top: 114px;">
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <p class="color_heading size15 bold marginT10 marginB5 dinlineBlock">Withholding Tax <span *ngIf="isNTR" class="error"> *</span></p>
+                <div class="pull-right dinlineBlock col-md-6 padding0 marginT5 upload_sec">
+                    <select class="form-control" formControlName="whtTaxType" (change)="onChangeWithholdingTaxType($event.target.value)">
+                        <!-- <option value="">Upload Tax Rates</option> -->
+                        <option *ngFor="let item of withholdingTaxInputTypeOptions" [value]="item.value">{{item.label}}</option>
+                    </select>
+                    <a href="javascript:void(0)" *ngIf="isUploadWithholdingTax" title="Download Withholding Tax Template" class="pull-right borderAll download_btn" (click)="onTemplateDownload('WithholdingTax')">
+                        <i class="fa fa-download size16 "></i>
+                    </a>
+                </div>
+                <div *ngIf="isUploadWithholdingTax" class="box2 has-advanced-upload marginT10">
+                    <div *ngIf="!isCopyWht" class="box2__input">
+                        <input class="box2__file" type="file" #fileInput2 id="withholdingTaxFile" style="visibility: hidden; display:none;"
+                        (click)="fileInput2.value = null" value=""
+                        (change)="withholdingTaxFileChangeEvent($event)" multiple="">
+                        <div id="arrow" *ngIf="!isViewWithholdingTaxSanity">
+                            <i class="fa fa-upload size18"></i>
+                        </div>
+                        <div *ngIf="isViewWithholdingTaxSanity">
+                            <a href="javascript:void(0)" (click)="onViewWithholdingTaxSanity()" class="btn btn_primary waves-effect">
+                                <i class="{{withholdingTaxSanityStatusIcon}}" aria-hidden="true"></i> View Sanity
+                            </a>
+                        </div>
+                        <p *ngIf="!withholdingTaxFile" class="uploa_text ">Browse WHT file to upload</p>
+                        <p *ngIf="withholdingTaxFile" class="uploa_text">{{withholdingTaxFile.name}}
+                            <a href="javascript:void(0)" (click)="resetWithholdingTaxFile()">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                            </a>
+                        </p>
+                        <label for="withholdingTaxFile" class="upload_tx btn btn_primary waves-effect">Upload File </label>
+                        <div>
+                        </div>
+                    </div>
+                    <div class="box2__uploading">Uploading…</div>
+                    <div class="box2__success">Done!</div>
+                    <div class="box2__error">Error!
+                        <span></span>
+                    </div>
+                    <div *ngIf="isCopyWht" class="box2__input" style="margin-top: -13px !important;height: 131px !important;">
+                        <span style="font-size: small !important;font-weight:900 !important;color: green !important;font-size:1.5rem !important; margin-right:-68px !important">Withholding Tax data retrieved</span>                            
+                        <button type="button" class="upload_tx btn btn_primary waves-effect" (click)="onWhtUploadPreview()" style="margin-bottom:-193px !important;margin-left: -59px !important;margin-right: 37px !important;">Preview </button>
+                    </div>
+                </div>
+                <div *ngIf="isWhtStandard" class="box2 has-advanced-upload marginT10">
+                    <div class="box2__input" style="padding-top: 32px;">
+                        <button type="button" class="upload_tx btn btn_primary waves-effect marginT50" (click)="onWhtStandardPreview()">Preview </button>
+                    </div>
+                </div>
+                <div *ngIf="isWhtNA" class="box2 has-advanced-upload marginT10">
+                    <div class="box2__input" style="padding-top: 114px;">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 col-sm-12 col-xs-12 marginT10 padding10 White_bg box_radius box-shadow ">
+        <p class="color_heading size16 bold borderbottom paddingBottom5">Select Rebalance Schedule</p>
+
+        <div class="col-sm-12 padding0 marginT10">
+            <div class="col-sm-3 paddingL0 paddingR20" style="max-height:198px !important;">
+                <!-- required for floating -->
+
+                <ul class="nav nav-tabs tabs-left sideways" style="max-height:196px !important;">
+                    <p class="color_heading size15 bold  paddingBottom5">Schedule Type</p>
+                    <li class="active">
+                        <div class="round">
+                            <span></span>
+                        </div>
+                        <a href="#Custom" id="tabCustom" data-toggle="tab" (click)="onChangeRebalance('Custom')"> Custom Schedule</a>
+                    </li>
+                    <li>
+                        <div class="round">
+                            <span></span>
+                        </div>
+                        <a href="#Upload" id="tabUpload" data-toggle="tab" (click)="onChangeRebalance('Upload')">Upload Schedule</a>
+                    </li>
+                    <li>
+                        <div class="round">
+                            <span></span>
+                        </div>
+                        <a href="#Ad" id="tabAd" data-toggle="tab" (click)="onChangeRebalance('AdHoc')">Ad-Hoc</a>
+                    </li>
+                    <li> <div class="gap20"></div> </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-9">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="Custom">
+
+                        <div formGroupName="customScheduleOptions" class="col-sm-12">
+
+                            <p class="color_heading size15 bold  paddingBottom5">Custom Schedule Options</p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Recurrence</label>
+                                    <select class="form-control " formControlName="recurrence">
+                                        <option value="">Select Recurrence</option>
+                                        <option *ngFor="let item of recurrenceOptions" [value]="item.value">{{item.label}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 marginR10">
+                                    <label>Week Day</label>
+                                    <select class="form-control " formControlName="weekDay">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let item of weekDayOptions" [value]="item.value">{{item.label}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class=" marginT20 month_checkboxes col-md-8 padding0">
+                                <div class="checkbox checkbox-info" *ngFor="let item of monthOptions; let i=index">
+                                    <input id="{{i}}" type="checkbox" #checkboxes [value]="item.value" (change)="onMonthChange($event)" [checked]="item.isChecked">
+                                    <label for="{{i}}">{{item.label}}</label>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 borderTop padding0 " style="padding-top:3px !important;">
+                                <button type="button"  (click)="onCustomRebalancePreview()" class="btn btn_primary waves-effect marginT5 pull-right" >Preview</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane" id="Upload">
+                        <p *ngIf="!isCopyUploadSchedule" class="color_heading size15 bold  paddingBottom10">Upload Schedule
+                            <a href="javascript:void(0)" class="pull-right borderAll download_btn" (click)="onTemplateDownload('UploadSchedule')">
+                                <i class="fa fa-download size16 "></i>
+                            </a>
+                        </p>
+                        <div *ngIf="!isCopyUploadSchedule" class="box2 has-advanced-upload">
+                            <div class="box2__input">
+                                <input class="box2__file" type="file" name="scheduleFile" id="scheduleFile" style="visibility: hidden; display:none;"
+                                (change)="scheduleFileChangeEvent($event)" multiple="">
+                                <div id="arrow">
+                                    <i class="fa fa-upload size18"></i>
+                                </div>
+                                <p *ngIf="!scheduleFile" class="uploa_text">Browse schedule file to upload</p>
+                                <p *ngIf="scheduleFile" class="uploa_text">{{scheduleFile.name}}
+                                    <a href="javascript:void(0)" (click)="resetScheduleFile()">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </a>
+                                </p>
+                                <label for="scheduleFile" class="upload_tx btn btn_primary waves-effect">Upload New File </label>
+                                <div>
+                                </div>
+                            </div>
+                            <div class="box2__uploading">Uploading…</div>
+                            <div class="box2__success">Done!</div>
+                            <div class="box2__error">Error!
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <div *ngIf="isCopyUploadSchedule" class="col-md-12 borderTop padding0 ">
+                            <button type="button" (click)="onUploadSchedulePreview()" class="btn btn_primary waves-effect" style="margin-top: 100px; margin-left: 300px;">Preview</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="Ad"></div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12 marginT10 padding10 White_bg box_radius box-shadow ">
+        <p class="color_heading size16 bold borderbottom paddingBottom5">Applicable Corporate Actions</p>
+
+        <div formGroupName="corporateActions" class=" marginT20 Corporate_checkboxes col-md-12 padding0">
+            <div class="checkbox checkbox-info" *ngFor="let item of corporateActionOptions; let i=index">
+                <input id="{{'ca'+i}}" type="checkbox" [value]="item.value" (change)="onCorporateActionsChange($event)" [checked]="item.isChecked" disabled>
+                <label for="{{'ca'+i}}">{{item.label}}</label>
+            </div>
+        </div>
+
+    </div>
+
+    </form>
+
+
+</section>
+
+<div class="col-md-12 marginT20 marginB30">
+    <div class="pull-right">
+        <button type="button" [disabled]="!onBoardIndexForm.valid" (click)="onSubmit()" class="btn btn_save waves-effect marginR5">
+            <i class="fa fa-check"></i>&nbsp; Submit</button>
+        <a href="javascript:void(0)" (click)="resetForm()" class="btn btn_primary waves-effect marginR5 Reset_btn">
+            <i class="fa fa-info-circle"></i>&nbsp; Reset</a>
+        <a href="javascript:void(0)" (click)="onCancel()" class="btn  btn_cancel waves-effect marginR5">
+            <i class="fa fa-times"></i>&nbsp; Cancel</a>
+    </div>
+</div>
+
+<div class="gap20"></div>
+
+<a id="back-to-top" href="javascript:void(0)" class="btn btn-primary btn-lg back-to-top btnTop  hidden-xs" role="button"
+    title="Go to top" data-toggle="tooltip" data-placement="left">
+    <span class="glyphicon glyphicon-menu-up"></span>
+</a>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000" [draggable]="false"
+    [resizable]="false">
+    <p-header>{{modalHeader}}</p-header>
+    <div class="modal-body">
+        <div *ngIf="isConstituentSanity" class="scroll-container mat-elevation-z8 commonModalSpacing" style="height:470px !important">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="SanityResult" sticky>
+                    <th mat-header-cell *matHeaderCellDef class="min-width-50"> </th>
+                    <td mat-cell *matCellDef="let element">
+                        <a *ngIf="element.SanityResult != 'Success'" id="errorNotification" href="javascript:void(0)" title="{{element.SanityResult}}" class="notification-error">
+                            <i class="fa fa-exclamation-circle fa-lg"></i>
+                        </a>
+                        <a *ngIf="element.SanityResult == 'Success'" id="successNotification" href="javascript:void(0)" title="Success" class="notification-success">
+                            <i class="fa fa-check-circle fa-lg"></i>
+                        </a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Message">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Message</th>
+                    <td mat-cell *matCellDef="let element">{{element.SanityResult}}</td>
+                </ng-container>
+				
+				<ng-container matColumnDef="PrimaryID">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Primary ID</th>
+                    <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="RebalDate">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Rebal Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.RebalDate}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="RIC">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> RIC</th>
+                    <td mat-cell *matCellDef="let element"> {{element.RIC}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="SEDOL_CHK">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> SEDOL CHK</th>
+                    <td mat-cell *matCellDef="let element"> {{element.SEDOL_CHK}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ISIN">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> ISIN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.ISIN}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="BBGTicker">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> BBG Ticker</th>
+                    <td mat-cell *matCellDef="let element"> {{element.BBGTicker}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CompanyName">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Company Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.CompanyName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="PrimaryExchangeListed">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Primary Exchange</th>
+                    <td mat-cell *matCellDef="let element"> {{element.PrimaryExchangeListed}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Currency">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Currency</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CountryCode">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Country Code</th>
+                    <td mat-cell *matCellDef="let element"> {{element.CountryCode}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="IndexConstituentWeights">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Constituent Weights</th>
+                    <td mat-cell *matCellDef="let element"> {{element.IndexConstituentWeights}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="units_PR">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Units PR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.units_PR}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="units_TR">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Units TR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.units_TR}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="units_NTR">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Units NTR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.units_NTR}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="open_div_PR">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Open Div PR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.open_div_PR}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="open_div_TR">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Open Div TR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.open_div_TR}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="open_div_NTR">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Open Div NTR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.open_div_NTR}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="constituentColumnList; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: constituentColumnList;"></tr>
+            </table>
+        </div>
+        <div *ngIf="isHolidayListSanity" class="scroll-container mat-elevation-z8 commonModalSpacing" style="height:470px !important">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="SanityResult" sticky>
+                    <th mat-header-cell *matHeaderCellDef class="min-width-50"></th>
+                    <td mat-cell *matCellDef="let element">
+                        <a *ngIf="element.SanityResult != 'Success'" id="errorNotification" href="javascript:void(0)" title="{{element.SanityResult}}" class="notification-error">
+                            <i class="fa fa-exclamation-circle fa-lg"></i>
+                        </a>
+                        <a *ngIf="element.SanityResult == 'Success'" id="successNotification" href="javascript:void(0)" title="Success" class="notification-success">
+                            <i class="fa fa-check-circle fa-lg"></i>
+                        </a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Message">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Message</th>
+                    <td mat-cell *matCellDef="let element">{{element.SanityResult}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Description">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Description</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Exchange_Code">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Exchange Code</th>
+                    <td mat-cell *matCellDef="let element"> {{element.ExchangeCode}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Holidays">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Holidays</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Holidays}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Trading_Status">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Trading Status</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Trading_Status}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Settlement_Status">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150"> Settlement Status</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Settlement_Status}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="holidayColumnList; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: holidayColumnList;"></tr>
+            </table>
+        </div>
+        <div *ngIf="isWithholdingTaxSanity" class="scroll-container mat-elevation-z8 commonModalSpacing">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="SanityResult" sticky>
+                    <th mat-header-cell *matHeaderCellDef class="min-width-50"></th>
+                    <td mat-cell *matCellDef="let element">
+                        <a *ngIf="element.SanityResult != 'Success'" id="errorNotification" href="javascript:void(0)" title="{{element.SanityResult}}" class="notification-error">
+                            <i class="fa fa-exclamation-circle fa-lg"></i>
+                        </a>
+                        <a *ngIf="element.SanityResult == 'Success'" id="successNotification" href="javascript:void(0)" title="Success" class="notification-success">
+                            <i class="fa fa-check-circle fa-lg"></i>
+                        </a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Message">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Message</th>
+                    <td mat-cell *matCellDef="let element">{{element.SanityResult}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="CountryCode">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Country Code</th>
+                    <td mat-cell *matCellDef="let element"> {{element.CountryCode}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="TaxRate">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Tax Rate (%)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.TaxRate}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="from_date">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> From Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.from_date}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="to_date">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> To Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.to_date}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="whtColumnList; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: whtColumnList;"></tr>
+            </table>
+        </div>
+        <div *ngIf="isCustomRebalance" class="scroll-container mat-elevation-z8 commonModalSpacing" style="height: 470px !important;">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="Date">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200">Rebalance Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.date | date: 'fullDate'}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="customRebalList; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: customRebalList;"></tr>
+            </table>
+        </div>
+        <div *ngIf="isUploadRebalance" class="scroll-container mat-elevation-z8 commonModalSpacing" style="height: 470px !important;">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="rebal_date">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200">Rebalance Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.rebal_date | date: 'fullDate'}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="uploadRebalList; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: uploadRebalList;"></tr>
+            </table>
+        </div>
+        <div *ngIf="isStandardHoliday" class="scroll-container mat-elevation-z8 commonModalSpacing" style="height: 470px !important;">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="exchange_code">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Code</th>
+                    <td mat-cell *matCellDef="let element"> {{element.exchange_code}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="holiday_date">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Holiday Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.holiday_date | date: 'fullDate'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Description</th>
+                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="standardHolidayList; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: standardHolidayList;"></tr>
+            </table>
+        </div>
+        <div *ngIf="isStandardWht" class="scroll-container mat-elevation-z8 commonModalSpacing" style="height: 470px !important;">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="country_code">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Country Code</th>
+                    <td mat-cell *matCellDef="let element"> {{element.country_code}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="taxrate">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> Tax Rate</th>
+                    <td mat-cell *matCellDef="let element"> {{element.taxrate}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="from_date">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> From Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.from_date | date: 'fullDate'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="to_date">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200"> To Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.to_date | date: 'fullDate'}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="standardWhtList; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: standardWhtList;"></tr>
+            </table>
+        </div>
+        <!-- <div *ngIf="isPreOnboardedIndex">
+            <div class="col-md-12 marginT10 search_sec padding0">
+                <div class="col-lg-3 paddingL0">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Type in keywords to filter.." [(ngModel)]="preOnboardedIndexSearch" (input)="onSearchIndex($event.target.value)">
+                        <span class="input-group-btn">
+                            <button class="btn btn_primary " type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 marginT10 borderAll box_radius">
+                <div class="indices_checkboxes col-md-12 marginT10" style="height: 300px;overflow-y: scroll;">
+                    <div class="radio radio-info" *ngFor="let item of preOnboardedIndexList;let i = index">
+                        <input name="pre_index" id="{{'ind_'+i}}" type="radio" value="{{item.id}}" (change)="onPreOnboardIndexChange($event.target.value)">
+                        <label for="{{'ind_'+i}}">{{item.label}}</label>
+                    </div>
+                </div>
+            </div>
+        
+        </div> -->
+
+        <div *ngIf="isPreOnboardedIndex" class="col-md-12 padding0 commonModalSpacing">
+            <mat-form-field style="width: 30%;">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+            <div class="scroll-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="index_id">
+                        <th mat-header-cell *matHeaderCellDef class="min-width-50"></th>
+                        <td mat-cell *matCellDef="let element">  
+                            <mat-radio-button [value]="element.index_id" (change)="onPreOnboardIndexChange($event.value)"></mat-radio-button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="index_name">
+                        <th mat-header-cell *matHeaderCellDef class="min-width-200"> Index Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element.index_name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="return_type">
+                        <th mat-header-cell *matHeaderCellDef class="min-width-200"> Return Type</th>
+                        <td mat-cell *matCellDef="let element"> {{element.return_type}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="ticker">
+                        <th mat-header-cell *matHeaderCellDef class="min-width-200"> Index Ticker</th>
+                        <td mat-cell *matCellDef="let element"> {{element.ticker}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="onboarding_date">
+                        <th mat-header-cell *matHeaderCellDef class="min-width-200"> Onboarding Date</th>
+                        <td mat-cell *matCellDef="let element"> {{element.onboarding_date | date: 'fullDate'}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="index_currency">
+                        <th mat-header-cell *matHeaderCellDef class="min-width-200"> Index Currency</th>
+                        <td mat-cell *matCellDef="let element"> {{element.index_currency}} </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="preOnboardedIndex; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: preOnboardedIndex;"></tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <p-footer>
+        <p-button icon="pi pi-download" (click)="onDownload()" label="Download" *ngIf="!isPreOnboardedIndex"></p-button>
+        <p-button icon="pi pi-times" (click)="hideDialog()" label="Cancel"></p-button>
+    </p-footer>
+</p-dialog>

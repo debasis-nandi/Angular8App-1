@@ -1,0 +1,1092 @@
+<my-spinner [overlay]="overlay"></my-spinner>
+<p-growl [life]="growlLife" [(value)]="msgs"></p-growl>
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="bold size18 color_heading col-md-8 padding0"> Run Daily Calculation</p>
+        </div>
+    </div>
+    <div class="panel-group marginT15" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="accordion-toggle color_heading size15 bold" data-toggle="collapse" data-parent="#accordion" href="#DataUpload"
+                    aria-expanded="true">
+                    <div class="panel-title">
+                        <span class="color_heading size15 bold">Data Upload</span>
+                        <span class="pull-right color_heading">
+                            <b class="pass_msg size13 border borderRight paddingR20size13 border borderRight paddingR20" style="display: none;">
+                                <i class=" size18 colorGreen fa fa-check-circle marginR5"> </i>All Sanity Checks Passed</b>
+                            <i class=" fa fa-chevron-up marginl10"> </i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+            <div id="DataUpload" class="panel-collapse collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <div class="col-md-12 padding0">
+
+                        <div class="row borderbottom paddingBottom5 marginB5">
+                            <!-- <div class="col-md-2">
+                                <label>From </label>
+                                <my-date-picker [options]="dataUploadFromDateOptions" [(ngModel)]="dataUploadFromDate" 
+                                (dateChanged)="onDataUploadFromDateChanged($event)" [disabled]="useDummyDate">
+                                </my-date-picker>
+                            </div>
+                            <div class="col-md-2 marginR10">
+                                <label>To</label>
+                                <my-date-picker [options]="dataUploadToDateOptions" [(ngModel)]="dataUploadToDate" [disabled]="useDummyDate">
+                                </my-date-picker>
+                            </div> -->
+                            <div class="col-md-2">
+                                <label>Run Date </label>
+                                <my-date-picker [options]="dataUploadRunDateOptions" [(ngModel)]="dataUploadRunDate">
+                                </my-date-picker>
+                            </div>
+                            <div class="col-md-10 marginT28">
+                                <div class="checkbox checkbox-info dinlineBlock Dummy_data ">
+                                    <input id="Dummy_data" type="checkbox" [(ngModel)]="useDummyDate">
+                                    <label for="Dummy_data">Use Dummy Market Data
+                                        <a href="javascript:void(0)" title="{{useDummyDataTitle}}"><i class="fa fa-info-circle"></i></a>
+                                    </label>
+                                </div>
+                                <a href="javascript:void(0)" (click)="onTemplateDownload()" [ngClass]="{'disabled': useDummyDate}" class="btn btn_primary waves-effect pull-right">
+                                    <i class="fa fa-download"></i> Download Template</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 marginT10 search_sec padding0">
+                        <div class="col-lg-3 paddingL0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type in keywords to filter.." [(ngModel)]="dataUploadSearch" (input)="onSearchIndices($event.target.value, 'UploadData')">
+                                <span class="input-group-btn">
+                                    <button class="btn btn_primary " type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 marginT10  borderAll box_radius">
+
+                        <div class="checkbox checkbox-info borderbottom paddingBottom5">
+                            <input id="dataUploadSelectAllIndices" type="checkbox" [(ngModel)]="dataUploadSelectAllIndices" (change)="onSelectAllIndices($event.target.checked,'UploadData')">
+                            <label for="dataUploadSelectAllIndices">Select All Indices</label>
+                        </div>
+
+                        <div class=" indices_checkboxes col-md-12 padding0" style="height: 180px;overflow-y: scroll;">
+                            <div class="checkbox checkbox-info" *ngFor="let item of dataUploadIndices;let i = index">
+                                <input id="{{'data-upload'+i}}" type="checkbox" [(ngModel)]="item.isChecked" (change)="onChangeIndice($event.target.checked,'UploadData')">
+                                <label for="{{'data-upload'+i}}">{{item.label}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div [ngClass]="useDummyDate?'disabledSection':''" class="col-md-12 marginT10 padding0 horizontal_upload">
+                        <div class="box2 has-advanced-upload">
+                            <div class="box2__input">
+                                <input class="box2__file" type="file" #fileInput style="visibility: hidden; display:none;" id="uploadNewFile" 
+                                (click)="fileInput.value = null" value="" (change)="uploadNewChangeEvent($event)">
+                                <div id="arrow">
+                                    <i class="fa fa-upload size18"></i>
+                                </div>
+                                <p *ngIf="!uploadNewFile" class="uploa_text ">Select market data file to upload</p>
+                                <p *ngIf="uploadNewFile" class="uploa_text">{{uploadNewFile.name}}
+                                    <a href="javascript:void(0)" (click)="resetUploadNewFile()">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </a>
+                                </p>
+                                <label for="uploadNewFile" class="upload_tx btn btn_primary waves-effect" style="margin-top:3px !important; height:33px !important; padding-top: 3px!important;">Upload File </label>
+                                <div>
+
+                                </div>
+                            </div>
+                            <div class="box2__uploading">Uploading…</div>
+                            <div class="box2__success">Done!</div>
+                            <div class="box2__error">Error!
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="" (click)="onRunSanity()" data-toggle="modal" data-target="#Run_sanity_check" class="btn waves-effect marginT20 sanity_btn" data-backdrop="static" data-keyboard="false">
+                        <i class="fa fa-play"></i> Run Sanity Checks</a>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="panel-group marginT10" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="accordion-toggle color_heading size15 bold" data-toggle="collapse" data-parent="#accordion" href="#Calculation"
+                    aria-expanded="true">
+                    <div class="panel-title">
+                        <span class="color_heading size15 bold">Index Level Calculation</span>
+                        <span class="pull-right color_heading">
+                            <b class="cal_pending size13 border borderRight paddingR20" style="display: none;">
+                                <i class=" size18 colorOrgange fa fa-pause-circle marginR5"> </i>Pending Calculation</b>
+                            <b class="cal_pass size13 border borderRight paddingR20size13 border borderRight paddingR20" style="display: none;">
+                                <i class=" size18 colorGreen fa fa-check-circle marginR5"> </i>All Calculation completed</b>
+                            <i class=" fa fa-chevron-up marginl10"> </i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+            <div id="Calculation" class="panel-collapse collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <div class="col-md-12 padding0">
+
+                        <div class="row borderbottom paddingBottom10 marginB5">
+                            <div class="col-md-2">
+                                <label>Run Date </label>
+                                <my-date-picker [options]="indexCalRunDateOptions" [(ngModel)]="indexCalRunDate">
+                                </my-date-picker>
+                            </div>
+                            <!-- <div class="col-md-2">
+                                <label>From </label>
+                                <my-date-picker [options]="indexCalFromDateOptions" [(ngModel)]="indexCalFromDate" 
+                                (dateChanged)="onIndexCalFromDateChanged($event)">
+                                </my-date-picker>
+                            </div>
+                            <div class="col-md-2 marginR10">
+                                <label>To</label>
+                                <my-date-picker [options]="indexCalToDateOptions" [(ngModel)]="indexCalToDate">
+                                </my-date-picker>
+                            </div> -->
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-12 marginT10 search_sec padding0">
+                        <div class="col-lg-3 paddingL0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" [(ngModel)]="indexCalSearch" placeholder="Type in keywords to filter.."
+                                (input)="onSearchIndices($event.target.value, 'IndexCal')">
+                                <span class="input-group-btn">
+                                    <button class="btn btn_primary " type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 marginT10  borderAll box_radius">
+
+                        <div class="checkbox checkbox-info borderbottom paddingBottom5">
+                            <input id="indexCalSelectAllIndices" type="checkbox" [(ngModel)]="indexCalSelectAllIndices" (change)="onSelectAllIndices($event.target.checked,'IndexCal')">
+                            <label for="indexCalSelectAllIndices">Select All Indices</label>
+                        </div>
+
+
+                        <div class=" indices_checkboxes col-md-12 padding0" style="height: 180px;overflow-y: scroll;">
+                            <div class="checkbox checkbox-info" *ngFor="let item of indexCalIndices;let i = index">
+                                <input id="{{'index-cal'+i}}" type="checkbox" [(ngModel)]="item.isChecked" (change)="onChangeIndice($event.target.checked,'IndexCal')">
+                                <label for="{{'index-cal'+i}}">{{item.label}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <a href="javascript:void(0)" class="btn waves-effect marginT20 Calculate_btn" (click)="onCalculateIndex()">
+                        <i class="fa fa-play"></i>
+                        Calculate Index Level</a>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="panel-group marginT10" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="accordion-toggle color_heading size15 bold" data-toggle="collapse" data-parent="#accordion" href="#Status"
+                    aria-expanded="true">
+                    <div class="panel-title">
+                        <span class="color_heading size15 bold">Status</span>
+                        <i class="color_heading fa fa-chevron-up pull-right"> </i>
+                    </div>
+                </a>
+            </div>
+            <div id="Status" class="panel-collapse collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding0 ">
+                        <div class="table-responsive " id="runIndexStatus">
+                            <table id="status_table" class="table table-hover " style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th> Index Name</th>
+                                        <th> Index Ticker</th>
+                                        <th> Index Currency</th>
+                                        <th> Upload Date</th>
+                                        <th> Upload Status</th>
+                                        <th> Index Level</th>
+                                        <th> Last Run Date</th>
+                                        <th> Last Run User</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table-responsive " id="calIndexStatus" style="width:1086px !important">
+                            <table id="status_table2" class="table table-hover " style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th> Index Name</th>
+                                        <th> Index Ticker</th>
+                                        <th> Asset Class</th>
+                                        <th> Currency</th>
+                                        <th> Run Date</th>
+                                        <th> Data Upload Status</th>
+                                        <th> Index Level</th>
+                                        <th> Next Open</th>
+                                        <th> Divisor(t)</th>
+                                        <th> Divisor(t+1)</th>
+                                        <th> Prov Div</th>
+                                        <th> Calc Status</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        
+                        <a href="javascript:void(0)" class="btn waves-effect marginT20 download_output" style="display: none;">
+                            <i class="fa fa-download"></i>
+                            Download Output</a>
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</section>
+<!-- <div class="gap50"></div> -->
+
+<p-dialog id="RunSanity" [(visible)]="displayModal" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="true">
+    <p-header>Index Data Sanity Checks</p-header>
+    <div class="modal-body" [ngStyle]="{'min-height': basicSanity ? '300px' : '700px' }">
+        <my-spinner [overlay]="overlayPopup"></my-spinner>
+        <p-growl [life]="growlLife" [(value)]="msgsPopup"></p-growl>
+        <div *ngIf="basicSanity" class="scroll-container mat-elevation-z8" style="height: 430px !important">
+            <table mat-table [dataSource]="basicSanity" matSort>
+                <ng-container matColumnDef="tab_name">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150">Section Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tab_name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="error">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-150">Error Count</th>
+                    <td mat-cell *matCellDef="let element"> {{element.error}} </td>
+                </ng-container>
+                <ng-container matColumnDef="message">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-200">Message</th>
+                    <td mat-cell *matCellDef="let element"> {{element.message}} </td>
+                </ng-container>
+                <ng-container matColumnDef="file">
+                    <th mat-header-cell *matHeaderCellDef class="min-width-100">Action</th>
+                    <td mat-cell *matCellDef="let element">
+                        <a *ngIf="element.error > 0" href="javascript:void(0)" (click)="onBasicSanityDownload(element.tab_name, element.file)">
+                            <i class="fa fa-download size16 "></i>
+                        </a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="basicSanityList; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: basicSanityList;"></tr>
+            </table>
+        </div>
+
+        <div *ngIf="!basicSanity">
+            <div class="col-md-12 col-sm-12 col-xs-12 marginB10 padding0">
+
+                <!-- Nav tabs -->
+                <ul class="first_tab nav nav-tabs blue_Bottom_border" role="tablist">
+                    <li class="active">
+                        <a href="#Prices" role="tab" data-toggle="tab" (click)="onSelected('prices')">
+                            Prices
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#Fax" role="tab" data-toggle="tab" (click)="onSelected('fax')">
+                            Fx
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#cas" role="tab" data-toggle="tab" (click)="onSelected('cas')">
+                            CAs
+                        </a>
+                    </li>
+                    <!-- <span class="pull-right color_heading">
+                        <b class="size13 border borderRight paddingR20">
+                            <i class=" size18 colorGreen fa fa-check-circle marginR5"> </i>
+                            No Sanity Error Found</b>
+                    </span> -->
+
+                </ul>
+            </div>
+
+            <!-- Tab panes -->
+            <div class="col-md-12 col-sm-12 col-xs-12 marginB10 ">
+                <div class="tab-content marginT10">
+                    <div *ngIf="isPrices" class="Pos_relative">
+                        <div class="Pos_absolute" style="right: 0; top:-4px;">
+                            <div>
+                                <div class="checkbox checkbox-info dinlineBlock">
+                                    <input id="Overwrite" type="checkbox" [(ngModel)]="isOverwriteExistingPrices" (change)="onChangeOverwriteExistingPrices($event)">
+                                    <label for="Overwrite">Overwrite "Existing"</label>
+                                </div>
+                                <div class="checkbox checkbox-info dinlineBlock">
+                                    <input id="Insert" type="checkbox" [(ngModel)]="isInsertJumpsPrices" (change)="onChangeInsertJumpsPrices($event)">
+                                    <label for="Insert">Insert Jumps</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isPrices" class="tab-pane fade active in" id="Prices">
+
+                        <ul *ngIf="pricesData" class="second_tab nav nav-tabs blue_Bottom_border" role="tablist">
+                            <li class="active">
+                                <a href="#Data" role="tab" data-toggle="tab">
+                                    All Data ({{pricesData.allData.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Existing" role="tab" data-toggle="tab">
+                                    Existing({{pricesData.existing.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Jumps" role="tab" data-toggle="tab">
+                                    Jumps ({{pricesData.jumps.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Invalid" role="tab" data-toggle="tab">
+                                    Invalid({{pricesData.invalid.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Missing" role="tab" data-toggle="tab">
+                                    Missing({{pricesData.missing.length}})
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content ">
+                            <div class="tab-pane fade active in" id="Data">
+
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceAllData" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Currency">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Currency</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Currency}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="PriceDate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PriceDate}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Price}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="PriceType">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PriceType}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="duplicate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Duplicate</th>
+                                            <td mat-cell *matCellDef="let element"> 
+                                                <span *ngIf="element.duplicate">Yes</span>
+                                                <span *ngIf="!element.duplicate">No</span>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="allDataColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: allDataColumns;"></tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="Existing">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourcePriceExist" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Date}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="File_price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> File Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.File_price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="DB_price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> DB price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.DB_price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Price_Difference">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price Difference</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Price_Difference}} </td>
+                                        </ng-container>
+                                
+                                        <!-- <ng-container matColumnDef="Source">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Source</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Source}}</td>
+                                        </ng-container> -->
+                                
+                                        <tr mat-header-row *matHeaderRowDef="priceExistColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: priceExistColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Jumps">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourcePriceJumpZero" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="PriceDate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PriceDate}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="File_price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> File Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.File_Price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Last_Available_Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Last Available Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Last_Available_Price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Last_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Last Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Last_Date}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="PriceJump">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price Jump</th>
+                                            <td mat-cell *matCellDef="let element">{{element.PriceJump}}</td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="priceJumpZeroColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: priceJumpZeroColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Invalid">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourcePriceNonZero" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="PriceDate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PriceDate}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="File_price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> File Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.File_price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Last_Available_Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Last Available Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Last_Available_Price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Last_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Last Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Last_Date}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="PriceJump">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price Jump</th>
+                                            <td mat-cell *matCellDef="let element">{{element.PriceJump}}</td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="priceNonZeroColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: priceNonZeroColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Missing">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceMissingData" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Currency">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Currency</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Currency}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="PriceDate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PriceDate}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="PriceType">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PriceType}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="duplicate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Duplicate</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <span *ngIf="element.duplicate">Yes</span>
+                                                <span *ngIf="!element.duplicate">No</span>
+                                            </td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="missingColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: missingColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div *ngIf="isFax" class="Pos_relative">
+                        <div class="Pos_absolute" style="right: 0; top:-4px;">
+                            <div>
+                                <div class="checkbox checkbox-info dinlineBlock">
+                                    <input id="Overwrite" type="checkbox" [(ngModel)]="isOverwriteExistingFax" (change)="onChangeOverwriteExistingFax($event)">
+                                    <label for="Overwrite">Overwrite "Existing"</label>
+                                </div>
+                                <div class="checkbox checkbox-info dinlineBlock">
+                                    <input id="Insert" type="checkbox" [(ngModel)]="isInsertJumpsFax" (change)="onChangeInsertJumpsFax($event)">
+                                    <label for="Insert">Insert Jumps</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isFax" class="tab-pane fade active in" id="Fax">
+                        <ul *ngIf="faxData" class="second_tab nav nav-tabs blue_Bottom_border" role="tablist">
+                            <li class="active">
+                                <a href="#Data" role="tab" data-toggle="tab">
+                                    All Data ({{faxData.allData.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Existing" role="tab" data-toggle="tab">
+                                    Existing ({{faxData.existing.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Jumps" role="tab" data-toggle="tab">
+                                    Jumps ({{faxData.jumps.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Invalid" role="tab" data-toggle="tab">
+                                    Invalid ({{faxData.invalid.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Missing" role="tab" data-toggle="tab">
+                                    Missing({{faxData.missing.length}})
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content ">
+                            <div class="tab-pane fade active in" id="Data">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceFxAllData" matSort>
+                                        <ng-container matColumnDef="Identifier">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-200"> Identifier</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Identifier}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Date}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="SpotRate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> SpotRate</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.SpotRate}} </td>
+                                        </ng-container>
+                                
+                                        <!-- <ng-container matColumnDef="duplicate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Duplicate</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <span *ngIf="element.duplicate">Yes</span>
+                                                <span *ngIf="!element.duplicate">No</span>
+                                            </td>
+                                        </ng-container> -->
+
+                                        <ng-container matColumnDef="Description">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-200"> Description</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="fxAllDataColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: fxAllDataColumns;"></tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="Existing">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceFxExist" matSort>
+                                        <ng-container matColumnDef="Identifier">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Identifier</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Identifier}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Cal_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Cal Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Cal_Date}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="File_price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> File Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.File_price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="DB_price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> DB Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.DB_price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Price_Difference">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price Difference</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Price_Difference}}</td>
+                                        </ng-container>
+
+                                        <!-- <ng-container matColumnDef="Source">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Source</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Source}}</td>
+                                        </ng-container> -->
+                                
+                                        <tr mat-header-row *matHeaderRowDef="fxExistColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: fxExistColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Jumps">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanitycustomSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceFxJumpZero" matSort>
+                                        <ng-container matColumnDef="Identifier">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Identifier</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Identifier}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Cal_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Cal Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Cal_Date}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="File_price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> File Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.File_Price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Last_Available_Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Last Available Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Last_Available_Price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Last_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Last Date</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Last_Date}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="PriceJump">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price Jump</th>
+                                            <td mat-cell *matCellDef="let element">{{element.PriceJump}}</td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="fxJumpZeroColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: fxJumpZeroColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Invalid">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceFxJumpNonZero" matSort>
+                                        <ng-container matColumnDef="Identifier">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Identifier</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Identifier}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Cal_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Cal Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Cal_Date}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="File_price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> File Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.File_price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Last_Available_Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Last Available Price</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Last_Available_Price}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Last_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Last Date</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Last_Date}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="PriceJump">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Price Jump</th>
+                                            <td mat-cell *matCellDef="let element">{{element.PriceJump}}</td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="fxJumpNonZeroColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: fxJumpNonZeroColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="Missing">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceFxMissingData" matSort>
+                                        <ng-container matColumnDef="Missing">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Missing</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Missing}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Date</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Date}} </td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="fxMissingColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: fxMissingColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="isCas" class="Pos_relative">
+                        <div class="Pos_absolute" style="right: 0; top:-4px;">
+                            <div>
+                                <div class="checkbox checkbox-info dinlineBlock">
+                                    <input id="Overwrite" type="checkbox" [(ngModel)]="isOverwriteExistingCas" (change)="onChangeOverwriteExistingCas($event)">
+                                    <label for="Overwrite">Overwrite "Existing"</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isCas" class="tab-pane fade active in" id="cas">
+                        <ul *ngIf="casData" class="second_tab nav nav-tabs blue_Bottom_border" role="tablist">
+                            <li class="active">
+                                <a href="#Data" role="tab" data-toggle="tab">
+                                    All Data ({{casData.allData.length}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Existing" role="tab" data-toggle="tab">
+                                    Existing ({{casData.existing.length}})
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a href="#Valid" role="tab" data-toggle="tab">
+                                    Valid ({{casData.Valid.length}})
+                                </a>
+                            </li> -->
+                            <li>
+                                <a href="#Invalid" role="tab" data-toggle="tab">
+                                    Invalid ({{casData.invalid.length}})
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content ">
+                            <div class="tab-pane fade active in" id="Data">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceCaAllData" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-200"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="ExDate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> ExDate</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ExDate}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="ActionType">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Action Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ActionType}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Type">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Event_Value">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Event Value</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Event_Value}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Event_Currency">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Event Currency</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Event_Currency}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Pay_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Pay Date</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Pay_Date}}</td>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="New_ID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> New ID</th>
+                                            <td mat-cell *matCellDef="let element">{{element.New_ID}}</td>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="Offer_Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Offer Price</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Offer_Price}}</td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="caAllDataColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: caAllDataColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Existing">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceExistingCaData" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-200"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="ExDate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> ExDate</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ExDate}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="ActionType">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Action Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ActionType}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Type">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Event_Value">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Event Value</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Event_Value}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Event_Currency">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Event Currency</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Event_Currency}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Pay_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Pay Date</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Pay_Date}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="New_ID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> New ID</th>
+                                            <td mat-cell *matCellDef="let element">{{element.New_ID}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Offer_Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Offer Price</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Offer_Price}}</td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="caExistColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: caExistColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Valid">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceValidCaData" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-200"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="ExDate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> ExDate</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ExDate}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="ActionType">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Action Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ActionType}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Type">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Event_Value">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Event Value</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Event_Value}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Event_Currency">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Event Currency</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Event_Currency}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Pay_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Pay Date</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Pay_Date}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="New_ID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> New ID</th>
+                                            <td mat-cell *matCellDef="let element">{{element.New_ID}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Offer_Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Offer Price</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Offer_Price}}</td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="caValidColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: caValidColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Invalid">
+                                <div class="scroll-container mat-elevation-z8 marginT10 customSanity" style="height: 347px !important;">
+                                    <table mat-table [dataSource]="dataSourceInvalidCaData" matSort>
+                                        <ng-container matColumnDef="PrimaryID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-200"> Primary ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.PrimaryID}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="ExDate">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> ExDate</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ExDate}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="ActionType">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Action Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ActionType}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Type">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Type</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Event_Value">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Event Value</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Event_Value}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Event_Currency">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Event Currency</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Event_Currency}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Pay_Date">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Pay Date</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Pay_Date}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="New_ID">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> New ID</th>
+                                            <td mat-cell *matCellDef="let element">{{element.New_ID}}</td>
+                                        </ng-container>
+                                
+                                        <ng-container matColumnDef="Offer_Price">
+                                            <th mat-header-cell *matHeaderCellDef class="min-width-150"> Offer Price</th>
+                                            <td mat-cell *matCellDef="let element">{{element.Offer_Price}}</td>
+                                        </ng-container>
+                                
+                                        <tr mat-header-row *matHeaderRowDef="caInvalidColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: caInvalidColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <p-footer>
+        <div class="col-md-12 col-sm-12 col-xs-12 padding0 text-center">
+            <!-- <div class="col-md-2">
+                <a href="javascript:void(0)" class="btn  btn_cancel waves-effect" data-dismiss="modal" aria-hidden="true" (click)="hideDialog()">
+                    <i class="fa fa-times"></i>&nbsp; Cancel Upload</a>
+            </div>
+            <div *ngIf="!basicSanity" class="col-md-5 pull-right paddingR0">
+                <a href="javascript:void(0)" (click)="onDownloadBackendSanity()" class="btn btn_primary waves-effect marginR5">
+                    <i class="fa fa-download"></i>Export All Data to Excel</a>
+                <a href="javascript:void(0)" (click)="onConfirm()" data-dismiss="modal" class="btn btn_save waves-effect confirm_chck">
+                    <i class="fa fa-check"></i>&nbsp; Confirm All Checks</a>
+            </div> -->
+            <div class="col-md-6"></div>
+            <div class="col-md-6 pull-right paddingR0">
+                <p-button *ngIf="!basicSanity" icon="pi pi-check" (click)="onConfirm()" label="Confirm All Checks" data-dismiss="modal" class="marginR5"></p-button>
+                <p-button *ngIf="!basicSanity" icon="pi pi-download" (click)="onDownloadBackendSanity()" label="Download" class="marginR5"></p-button>
+                <p-button [ngClass]="basicSanity ? 'pull-right':''" icon="pi pi-times" (click)="hideDialog()" label="Cancel" data-dismiss="modal"></p-button>
+            </div>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<div class="gap20"></div>
+<a id="back-to-top" href="javascript:void(0)" class="btn btn-primary btn-lg back-to-top btnTop  hidden-xs" role="button"
+    title="Go to top" data-toggle="tooltip" data-placement="left">
+    <span class="glyphicon glyphicon-menu-up"></span>
+</a>

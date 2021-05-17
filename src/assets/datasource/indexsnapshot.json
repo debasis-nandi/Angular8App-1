@@ -1,0 +1,116 @@
+{
+  "result": true,
+  "data": {
+    "indexDetails": {
+      "indexName": "Text world size long(Top)",
+      "indexTicker": "Test WSTR",
+      "indexCurrency": "USD",
+      "returnType": "NTR",
+      "assetClass": "Equity",
+      "launchDate": "14-07-2020",
+      "baseDate": "10-07-2020"
+    },
+    "indexCharacteristics": {
+      "indexOfConstituents": "315",
+      "constituentMarket": "USD Million",
+      "meanTotalMarketCap": "1,5204.50",
+      "largestTotalMarketCap": "29,238.90",
+      "smallestTotalMarketCap": "9,374.60",
+      "weightLargestConstituent": "8.94"
+    },
+    "indexLevels": [
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      },
+      {
+        "calDate": "14-07-2020",
+        "indexLevel": "3456.67452235677787"
+      }
+    ]
+  }
+}

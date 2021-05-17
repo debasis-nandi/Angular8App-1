@@ -1,0 +1,182 @@
+/*==================================================
+=            Bootstrap 3 Media Queries             =
+==================================================*/
+
+    /*==========  Non-Mobile First Method  ==========*/
+
+    /* Large Devices, Wide Screens */
+
+
+    @media screen and (min-width: 800px) and (max-width: 1300px){
+        .dynamicwidth_md{width:240px}
+        .dynamicwidth_sm{width:150px}
+        .dynamicwidth_xs{width:80px}
+
+    }
+
+
+    @media only screen and (max-width : 1200px) {
+      
+       
+			ul.SubNav>li>a {
+    font-size: 14px;
+    padding: 5px 12px;
+		}
+
+.panel-default .nav>li>a {
+ font-size:14px;
+}
+/* for new index page tab view  */
+.intro_content {
+    width: 100%;
+ 
+}
+
+.key_feature_box {
+    padding: 0;}
+
+    .key_features p {
+        font-size: 14px;
+        padding: 0px;
+        line-height: 16px;
+    }
+
+    .help_box_img {
+        width: 100%;}
+        .help_box_img img{
+            width: 100%;}
+
+            .quickstart_content p {
+                font-size: 14px;
+                margin-top: 6px;
+                line-height: 16px;
+                color: #414d67;
+            }
+            .quickstart_panel .quickstart_head{margin-left: 50px;}      
+
+}
+
+
+
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 992px) {
+      
+      
+}
+
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 768px) {
+        
+        #content {
+            width: 75%;
+        }
+	ul.SubNav>li>a {
+    font-size: 13px;
+    padding: 5px 11px;
+    color: #525050;}
+		
+		ul.SubNav>li {
+      padding: 0px 5px 0px 2px;
+}
+		
+ 
+ .marginMain_Container {
+ margin: 0px;
+}
+ .borderRight_dotted {
+border-right: none;
+}
+.panel-default .nav>li>a {
+ font-size:14px;
+}
+
+}
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (max-width : 480px) {
+ .margTopMob10 {
+margin-top:10px;
+}
+ #footer {
+bottom: -60px;
+}
+ 
+ .dataTables_filter input {
+ width: 174px !important;
+}
+ 
+ .marginMain_Container {
+ margin: 0px;
+}
+
+.panel-default .nav>li>a {
+ font-size: 20px;
+}
+ .panel-body {
+ padding: 15px 5px;
+}
+ .paddingMobL0 {
+padding-left:0px;
+}
+ .download_btn {
+padding: 5px 10px;
+font-size:12px;
+}
+ .navbar p, i {
+font-size:12px;
+}
+
+
+ul.SubNav>li {
+    display: block;
+    border-right: 1px solid #fff;
+    padding: 5px;
+}
+ul.SubNav .active a {
+  
+    display: block;
+}
+
+
+ .panel-default .nav>li {
+display:block;
+width:100%;
+}
+ .hambur_mobile {
+margin-top: 5px;
+}
+.navbar {
+padding: 5px 0px 5px 0px;
+}
+.margMT10 {
+margin-top:10px;
+}
+.paddingM0 {
+padding:0px;
+}
+.paddingM5 {
+padding:5px;
+}
+.margMB10 {
+margin-bottom:10px;
+}
+.margMT30 {
+margin-top:30px;
+}
+.dataTables_scrollHeadInner {
+display:none;
+}
+.borderRight_dotted {
+border-right: 2px dotted #fff;
+}
+
+ .btn_white {
+font-size: 12px;
+}
+}
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 320px) {
+ 
+
+}

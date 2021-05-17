@@ -1,0 +1,9 @@
+table { width: 100%; }
+table tr.mat-header-row { height: 46px; }
+table tr.mat-row{ height: 40px; }
+.mat-paginator-container{ height: 46px; }
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 0.8em 0;
+}
+

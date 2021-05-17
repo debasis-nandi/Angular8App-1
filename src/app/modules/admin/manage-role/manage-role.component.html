@@ -1,0 +1,167 @@
+<my-spinner *ngIf="!displayModal" [overlay]="overlay"></my-spinner>
+<p-growl *ngIf="!displayModal" [life]="growlLife" [(value)]="msgs"></p-growl>
+<section class="container_fluid padding0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                <h1 class="size18">View Roles </h1>
+                <div class="col-md-12 padding0 ">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="javascript:void(0)">Home</a>
+                        </li>
+                        <li class="active">View Roles </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 col-sm-12">
+                <div class="catool_widget" id="form_section">
+                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                        <mat-form-field style="width: 30%;">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                        </mat-form-field>
+                        <p-button icon="pi pi-plus" label="Add" class="pull-right marginT20" (click)="onAction('Add')"></p-button>
+
+                        <div class="mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort>
+
+                                <!-- clientId Column -->
+                                <ng-container matColumnDef="clientId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.clientId}} </td>
+                                </ng-container>
+
+                                <!-- clientName Column -->
+                                <ng-container matColumnDef="clientName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="width200"> Name </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <a href="javascript:void(0)" (click)="onAction('View',element.clientId)" [matTooltip]="element.clientName">
+                                            {{element.clientName}}
+                                        </a>
+                                    </td>
+                                </ng-container>
+
+                                <!-- clientDomain Column -->
+                                <ng-container matColumnDef="clientDomain">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="width150"> Domain </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.clientDomain}} </td>
+                                </ng-container>
+
+                                <!-- subscriptionStart Column -->
+                                <ng-container matColumnDef="subscriptionStart">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="width150"> Subscription Start </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.subscriptionStart | date : 'MM-dd-yyyy' || 'N/A'}} </td>
+                                </ng-container>
+
+                                <!-- subscriptionEnd Column -->
+                                <ng-container matColumnDef="subscriptionEnd">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="width150"> Subscription End </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.subscriptionEnd | date : 'MM-dd-yyyy' || 'N/A'}} </td>
+                                </ng-container>
+
+                                <!-- Active Column -->
+                                <ng-container matColumnDef="isActive">
+                                    <th mat-header-cell *matHeaderCellDef class="width150"> Active </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.isActive}} </td>
+                                </ng-container>
+
+                                <!-- Active Column -->
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef class="width150"> Action </th>
+                                    <td mat-cell *matCellDef="let element" class="table_icons">
+                                        <a href="javascript:void(0)" matTooltip="Edit" (click)="onAction('Edit', element.clientId)">
+                                            <i class="fa fa-edit fa-lg"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" matTooltip="Disable" (click)="onAction('Delete', element.clientId)">
+                                            <i class="fa fa-trash-o fa-lg"></i>
+                                        </a>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="columnList"></tr>
+                                <tr mat-row *matRowDef="let row; columns: columnList;"></tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="gap20"></div>
+<div class="gap20"></div>
+<a id="back-to-top" href="javascript:void(0)" class="btn btn-primary btn-lg back-to-top btnTop  hidden-xs" role="button"
+    title="Go to top" data-toggle="tooltip" data-placement="left">
+    <span class="glyphicon glyphicon-menu-up"></span>
+</a>
+
+<p-dialog id="manageClient" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <p-header>{{dialogHeader}}</p-header>
+    <my-spinner *ngIf="displayModal" [overlay]="overlay"></my-spinner>
+    <p-growl *ngIf="displayModal" [life]="growlLife" [(value)]="msgs"></p-growl>
+    <div class="modal-body">
+        <form [formGroup]="clientForm">
+            <div class="form-row col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="name">Client Name</label><span class="error"> *</span>
+                    <input type="text" formControlName="name" class="form-control" placeholder="">
+                    <div *ngIf="clientForm.get('name').errors && (clientForm.get('name').dirty || clientForm.get('name').touched)">
+                        <span class="error" *ngIf="clientForm.get('name').hasError('required')">Please enter client name</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="domain">Domain Name</label><span class="error"> *</span>
+                    <input type="text" formControlName="domain" class="form-control" placeholder="">
+                    <div *ngIf="clientForm.get('domain').errors && (clientForm.get('domain').dirty || clientForm.get('domain').touched)">
+                        <span class="error" *ngIf="clientForm.get('domain').hasError('required')">Please enter domain name</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="subscriptionStart">Subscription Start</label><span class="error"> *</span>
+                    <my-date-picker name="subscriptionStart" [options]="myStartDateOptions" formControlName="subscriptionStart"
+                    (dateChanged)="onStartDateChanged($event)" placeholder=""></my-date-picker>
+                    <div *ngIf="clientForm.get('subscriptionStart').errors && (clientForm.get('subscriptionStart').dirty || clientForm.get('subscriptionStart').touched)">
+                        <span class="error" *ngIf="clientForm.get('subscriptionStart').hasError('required')">Please enter subscription start date</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="subscriptionEnd">Subscription End</label><span class="error"> *</span>
+                    <my-date-picker name="subscriptionEnd" [options]="myEndDateOptions" formControlName="subscriptionEnd"
+                    placeholder=""></my-date-picker>
+                    <div *ngIf="clientForm.get('subscriptionEnd').errors && (clientForm.get('subscriptionEnd').dirty || clientForm.get('subscriptionEnd').touched)">
+                        <span class="error" *ngIf="clientForm.get('subscriptionEnd').hasError('required')">Please enter subscription end date</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label for="inputCity">Active</label><span class="error"> *</span>
+                    <div style="display: flex; padding-left: 0px; padding-top: 12px;" class="form-control">
+                        <label class="control control--radio">
+                            Yes
+                            <input type="radio" formControlName="active" value="1">
+                            <div class="control__indicator"></div>
+                        </label>
+                        <label class="control control--radio ">
+                            No
+                            <input type="radio" formControlName="active" value="0">
+                            <div class="control__indicator"></div>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <p-footer>
+        <p-button icon="pi pi-check" *ngIf="!isViewMode" [disabled]="!clientForm.valid" (click)="onFormSubmit()" label="Submit" class="p-button-text"></p-button>
+        <p-button icon="pi pi-times" (click)="hideDialog()" label="Cancel"></p-button>
+    </p-footer>
+</p-dialog>

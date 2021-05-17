@@ -1,0 +1,29 @@
+{
+    "result": true,
+    "userlist": [
+      {
+        "id": 27,
+        "username": "deep.kandpal",
+        "email": "deep.kandpal@evalueserve.com",
+        "first_name": null,
+        "last_name": null,
+        "active": true,
+        "clientname": "Evalueserve",
+        "clientid": 21,
+        "accountname": "demo bank",
+        "accountid": 25
+      },
+      {
+        "id": 28,
+        "username": "debases.nandi",
+        "email": "debasis@evalueserve.com",
+        "first_name": null,
+        "last_name": null,
+        "active": true,
+        "clientname": "Evalueserve",
+        "clientid": 21,
+        "accountname": "demo bank",
+        "accountid": 25
+      }
+    ]
+  }

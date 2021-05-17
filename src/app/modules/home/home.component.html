@@ -1,0 +1,214 @@
+<my-spinner [overlay]="overlay"></my-spinner>
+<p-growl [life]="growlLife" [(value)]="msgs"></p-growl>
+<section class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="intro_box">
+                <div class="intro_content">
+                    <h2 data-sr="enter top over 1s wait 0s" [ngsReveal]="{ reset: true }">Index Calculation and Analytics on your finger tip.</h2>
+                    <p data-sr="enter bottom over 1s wait 0s" [ngsReveal]="{ reset: true }"> Powered by Evalueserve's mind+machine™ solution, this is a fully featured index calculation workbench for facilitating various analytics tasks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="key_head size24 padding0"> Key Features</p>
+        </div>
+
+        <div class="col-md-12 ">
+            <div class="key_feature_box">
+                <div class="col-md-3 col-sm-4 col-xs-12 col-md-offset-1" data-sr="enter right over 1s wait 0s" [ngsReveal]="{ reset: true }">
+                    <div class="key_features">
+                        <i class="Processing_ico">
+                            <img src="{{imgPath + 'processing.png'}}">
+                        </i>
+                        <h4 class=" bold">Precise Processing</h4>
+                        <p>Calculation with impeccable precision </p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-12" data-sr="enter left over 1s wait 0s" [ngsReveal]="{ reset: true }">
+                    <div class="key_features">
+                        <i class="Insightful_ico">
+                            <img src="{{imgPath + 'bulb.png'}}">
+                        </i>
+                        <h4 class=" bold">Insightful Analysis</h4>
+                        <p>Performs exhaustive index analytics</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-12 " data-sr="enter top over 1s wait 0s" [ngsReveal]="{ reset: true }">
+                    <div class="key_features">
+                        <i class="Machine_ico">
+                            <img src="{{imgPath + 'machine.png'}}">
+                        </i>
+                        <h4 class=" bold">Machine Powered</h4>
+                        <p>Capable of handling complex calculations and large back-tests </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- <div class="col-md-12 Center_text">
+            <ul class="home_links">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-file-text" aria-hidden="true"></i> Analyst Summary</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-level-up" aria-hidden="true"></i>Onboarding</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-life-ring" aria-hidden="true"></i>Run Daily</a>
+                </li>
+            </ul>
+        </div> -->
+
+
+
+        <div class="clearfix"></div>
+        <div class="col-md-12 quickstart_panel">
+            <div class="panel-group marginT15" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="accordion-toggle" aria-expanded="true">
+                            <div class="panel-title">
+                                <!-- <div class="col-md-1 col-sm-2 paddingL0">
+                                    <div class="Pos_absolute"> -->
+                                        <!-- <ul class="quickguide_counter">
+                          <li><p>1</p><p><i class=" fa fa-chevron-up"> </i></p></li>
+                          <li><p>2</p><p><i class=" fa fa-chevron-up"> </i></p></li>
+                          <li><p>3</p><p><i class=" fa fa-chevron-up"> </i></p></li>
+                        <p class="dot_brder"></p>
+                        </ul> -->
+
+                                        <!-- <div class="steps">
+                                            <div class="progress-line">
+                                                <ul class="list-inline">
+                                                    <li class="first active">
+                                                        <div class="step-id">1</div>
+                                                        <div class="circle">
+                                                            <div class="circle inner-circle"></div>
+                                                        </div>
+
+                                                    </li>
+                                                    <li class="middle">
+                                                        <div class="step-id">2</div>
+                                                        <div class="circle">
+                                                            <div class="circle inner-circle"></div>
+                                                        </div>
+
+                                                    </li>
+                                                    <li class="last">
+                                                        <div class="step-id">3</div>
+                                                        <div class="circle">
+                                                            <div class="circle inner-circle"></div>
+                                                        </div>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div> -->
+                                    <!-- </div>
+                                </div> -->
+                                <a aria-expanded="true" class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#quickguide" style="background: none !important;">
+                                    <span class="quickstart_head">Quickstart Guide</span>
+                                </a>
+                                <a class="btn waves-effect marginT20 size20 Calculate_btn" href="javascript:void(0)" (click)="onGetStarted()"
+                                    style="margin-top:-1px; margin-left:69%; color: #fff !important; font-size: 16px !important"> Get Started
+                                    <i aria-hidden="true" class="fa fa-arrow-right size18 marginl10"></i>
+                                </a>
+                                <a aria-expanded="true" class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#quickguide">
+                                    <span class="pull-right quick_panel_drop">
+                                        <i class="fa marginl10 fa-chevron-up"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </a>
+                    </div>
+                    <div id="quickguide" class="panel-collapse collapse in" aria-expanded="true">
+                        <div class="panel-body">
+                            <div class="col-md-12 padding0">
+                                <div class="col-md-3 paddingL0">
+                                    <div class="help_box_img">
+                                        <img src="{{imgPath + 'Analyst_Summary_small.png'}}" data-sr="enter left over 1s wait 0s" [ngsReveal]="{ reset: true }">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9 paddingL0 quickstart_content" data-sr="enter right over 1s wait 0s">
+                                    <h5>
+                                        <span class="circle_dot">1</span> <a routerLink="/dashboard">Analyst Summary</a></h5>
+                                    <p>Analyst Summary page shows all the indices currently on-boarded on the system, along with other relevant information.</p>
+                                    <p>User can also view index composition, index snapshot that consist of index characteristics & analytics etc. for a selected index.</p>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12 padding0 marginT20">
+                                <div class="col-md-3 paddingL0">
+                                    <div class="help_box_img">
+                                        <img src="{{imgPath + 'Index_onboarding_small.png'}}" data-sr="enter left over 1s wait 0s" [ngsReveal]="{ reset: true }">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9 paddingL0 quickstart_content" data-sr="enter right over 1s wait 0s">
+                                    <h5>
+                                        <span class="circle_dot">2</span><a routerLink="/onboardindex">Onboard New Index</a></h5>
+                                    <p>This functionality allow users to onboard a new index based on standard divisor standard based methodology for equity indices.</p>
+                                    <p>User can either create a new index(by selecting various fields & uploading basket of stocks) or can also use existing indices already on-boarded on the system.</p>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 padding0 marginT20">
+                                <div class="col-md-3 paddingL0">
+                                    <div class="help_box_img">
+                                        <img src="{{imgPath + 'Index_Run_Daily_small.png'}}" data-sr="enter left over 1.5s wait 0.4s" [ngsReveal]="{ reset: true }">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9 paddingL0 quickstart_content" data-sr="enter right over 1.5s wait 0.4s" [ngsReveal]="{ reset: true }">
+                                    <h5>
+                                        <span class="circle_dot">3</span><a routerLink="/rundaily">Upload Market Data</a></h5>
+                                    <p>This functionality allow users to upload the market data (Constituent Prices, FX Rates, Corporate Actions), which will be used for index level calculation.</p>
+                                    <p>User can either upload the market data for a given date (in a specific format as provided) or can use dummy market data already uploaded to the system.</p>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 padding0 marginT20">
+                                <div class="col-md-3 paddingL0">
+                                    <div class="help_box_img">
+                                        <img src="{{imgPath + 'Index_Run_Daily_small.png'}}" data-sr="enter left over 1.8s wait 0.8s" [ngsReveal]="{ reset: true }">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9 paddingL0 quickstart_content" data-sr="enter right over 1.8s wait 0.8s" [ngsReveal]="{ reset: true }">
+                                    <h5>
+                                        <span class="circle_dot">4</span><a routerLink="/rundaily">Index Level Calculation</a></h5>
+                                    <p>This functionality allow users to initiate index level calculation for selected index (or indices) for a given date.</p>
+                                    <p>The run time status can be viewed under ‘Status View’ and output reports will be downloaded automatically after successful completion of index level calculation.</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+<div class="gap20"></div>
+
+<a id="back-to-top" href="javascript:void(0)" class="btn btn-primary btn-lg back-to-top btnTop  hidden-xs" role="button"
+    title="Go to top" data-toggle="tooltip" data-placement="left">
+    <span class="glyphicon glyphicon-menu-up"></span>
+</a>

@@ -1,0 +1,80 @@
+{
+    "result": true,
+    "data": [
+      {
+       "id":"1",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"2",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"3",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"4",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"5",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"6",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"7",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"8",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"9",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"10",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"11",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"12",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"13",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"14",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      },
+      {
+       "id":"15",
+       "label":"All Data- Index Name Example",
+       "isChecked":false 
+      }
+    ]
+  }

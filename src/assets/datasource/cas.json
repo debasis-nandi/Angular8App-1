@@ -1,0 +1,85 @@
+{
+    "result": true,
+    "results": [
+        {
+            "all_data": [
+                {
+                    "Ex-Date": "2020-06-10",
+                    "PrimaryID": "BBG000TRN7T6 FIGI",
+                    "ActionType": "Reclassification",
+                    "Type": "Reclassification",
+                    "Event Value": 0.6,
+                    "Event Currency": "USD",
+                    "Pay Date": "2020-06-25",
+                    "New ID": "BBG000TRN7T6 FIGI",
+                    "Offer Price": ""
+                },
+                {
+                    "Ex-Date": "2020-06-11",
+                    "PrimaryID": "BBG000TRN7T6 FIGI",
+                    "ActionType": "Reclassification",
+                    "Type": "Reclassification",
+                    "Event Value": 0.6,
+                    "Event Currency": "USD",
+                    "Pay Date": "2020-06-25",
+                    "New ID": "",
+                    "Offer Price": ""
+                },
+                {
+                    "Ex-Date": "2020-06-12",
+                    "PrimaryID": "BBG000TRN7T6 FIGI",
+                    "ActionType": "Reclassification",
+                    "Type": "Reclassification",
+                    "Event Value": 0.6,
+                    "Event Currency": "USD",
+                    "Pay Date": "2020-06-25",
+                    "New ID": "",
+                    "Offer Price": ""
+                },
+                {
+                    "Ex-Date": "2020-06-13",
+                    "PrimaryID": "BBG000TRN7T6 FIGI",
+                    "ActionType": "Spin-off",
+                    "Type": "Spinoff",
+                    "Event Value": 0.6,
+                    "Event Currency": "USD",
+                    "Pay Date": "2020-06-25",
+                    "New ID": "",
+                    "Offer Price": ""
+                },
+                {
+                    "Ex-Date": "2020-06-14",
+                    "PrimaryID": "BBG000TRN7T6 FIGI",
+                    "ActionType": "Cash Dividend",
+                    "Type": "1st Interim",
+                    "Event Value": 0.6,
+                    "Event Currency": "USD",
+                    "Pay Date": "2020-06-25",
+                    "New ID": "",
+                    "Offer Price": ""
+                }
+            ],
+            "all_data_count": 5,
+            "Valid_CA": [
+                {
+                    "Ex-Date": "2020-06-14",
+                    "PrimaryID": "BBG000TRN7T6 FIGI",
+                    "ActionType": "Cash Dividend",
+                    "Type": "1st Interim",
+                    "Event Value": 0.6,
+                    "Event Currency": "USD",
+                    "Pay Date": "2020-06-25",
+                    "New ID": "",
+                    "Offer Price": "",
+                    "event_handle": "Cash Dividend",
+                    "_merge": "left_only"
+                }
+            ],
+            "Valid_CA_count": 1,
+            "Invalid_CA": [],
+            "Invalid_CA_count": 0,
+            "Existing_CA": [],
+            "Existing_CA_count": 0
+        }
+    ]
+}

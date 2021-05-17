@@ -1,0 +1,13 @@
+{
+    "result": true,
+    "results": [
+        {
+            "code": "BESC",
+            "count": 1
+        },
+        {
+            "code": "NYC",
+            "count": 1
+        }
+    ]
+}
